@@ -41,7 +41,7 @@ public class RegisterServlet extends HttpServlet {
 	    try {
 	    	// Create connection
 	    	Class.forName("com.mysql.cj.jdbc.Driver");
-		    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/artistsdb?user=root&password=Rayquaza10!");
+		    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/BingeBaddies?user=root&password=Rayquaza10!");
 	
 	        // Check if email already exists
 	        stmt = conn.prepareStatement("SELECT * FROM Users WHERE email = ?");
