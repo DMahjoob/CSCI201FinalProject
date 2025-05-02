@@ -14,8 +14,8 @@ import com.google.gson.Gson;
 import java.util.Map;
 import java.util.HashMap;
 
-@WebServlet("/Register")
-public class RegisterServlet extends HttpServlet {
+@WebServlet("/Signup")
+public class SignupServlet extends HttpServlet {
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, IOException {
@@ -29,8 +29,10 @@ public class RegisterServlet extends HttpServlet {
 	    Map<String, String> userInfo = gson.fromJson(br, Map.class);
 	
 	    // Get parameters
+	    String fullName = userInfo.get("fullName");
+	    String username = userInfo.get("username");
 	    String email = userInfo.get("email");
-	    String fullName = userInfo.get("username");
+		
 	    String password = userInfo.get("password");
     
 	    // Set variables to null initially
