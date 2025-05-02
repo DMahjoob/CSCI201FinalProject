@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS Room (
     user_id      INT          NOT NULL,
     roomName     VARCHAR(100) NOT NULL,
     video_link   VARCHAR(255) DEFAULT NULL,
-    code         VARCHAR(6)   NOT NULL,
+    roomCode     VARCHAR(6)   NOT NULL,
     active_users TEXT         DEFAULT NULL,
     CONSTRAINT fk_room_creator
         FOREIGN KEY (user_id)
