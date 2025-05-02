@@ -6,7 +6,6 @@ public class Room {
     private String roomID;
     private User host;
     private ArrayList<User> guests;
-    private ArrayList<String> playlist;
     private final int capacity = 10;
 
     // Constructor(s)
