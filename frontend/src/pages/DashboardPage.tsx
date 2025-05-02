@@ -67,12 +67,12 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen min-w-screen bg-black text-white">
       <header className="p-4 border-b border-zinc-800">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-xl font-bold">Watch Party</h1>
           <Button
-            variant="ghost"
+            variant="destructive"
             size="icon"
             onClick={handleLogout}
             className="text-zinc-400 hover:text-white hover:bg-zinc-800"

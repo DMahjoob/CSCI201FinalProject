@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-black p-4">
+    <main className="flex min-h-screen min-w-screen flex-col items-center justify-center bg-black p-4">
       <Card className="w-full max-w-md bg-zinc-900 text-white border-zinc-800">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">Watch Party</CardTitle>

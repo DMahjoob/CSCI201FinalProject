@@ -231,7 +231,7 @@ export default function RoomPage() {
   )
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col">
+    <div className="min-h-screen min-w-screen bg-black text-white flex flex-col">
       <header className="p-3 border-b border-zinc-800 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <h1 className="font-bold">Room: {roomInfo.id}</h1>
