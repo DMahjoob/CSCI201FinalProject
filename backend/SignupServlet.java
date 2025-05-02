@@ -59,11 +59,12 @@ public class SignupServlet extends HttpServlet {
 		    } else {
 		        // Insert user into database
 		        insertStmt = conn.prepareStatement(
-		          "INSERT INTO Users (fullname, email, password) VALUES (?, ?, ?)"
+		          "INSERT INTO Users (fullname, username, email, password) VALUES (?, ?, ?, ?)"
 		        );
 		        insertStmt.setString(1, fullName);
-		        insertStmt.setString(2, email);
-		        insertStmt.setString(3, password);
+			insertStmt.setString(2, username);
+		        insertStmt.setString(3, email);
+		        insertStmt.setString(4, password);
 		        insertStmt.executeUpdate();
 		        Map<String, String> success = new HashMap<>();
 		        success.put("status", "success");
