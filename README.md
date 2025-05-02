@@ -8,4 +8,5 @@ Virtual Watch Party Webapp
 - Uploaded classes for the User2 (the adjusted version of User), Server, Message, and ReceiveMessage. Run multiple instances of users in Eclipse, and users can receive messages from each other.  
 
 5/2
-- Uploaded Login & Register Servlets for user validation with the database.
+- Uploaded Login, Signup, Room, & Message Servlets for user validation with the database.
+- Updated RoomCreation information. Submitted Complete Documentation
