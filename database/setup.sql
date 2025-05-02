@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS Users (
 CREATE TABLE IF NOT EXISTS Room (
     room_id      INT AUTO_INCREMENT PRIMARY KEY,
     user_id      INT          NOT NULL,
+    roomName     VARCHAR(100) NOT NULL,
     video_link   VARCHAR(255) DEFAULT NULL,
     code         VARCHAR(6)   NOT NULL,
     active_users TEXT         DEFAULT NULL,
