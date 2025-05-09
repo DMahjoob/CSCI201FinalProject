@@ -13,7 +13,7 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint("/room/{roomId}")
 public class WebSocketServer {
     private static HashMap<String, Set<Session>> roomSessions = new HashMap<>();
-
+    
     @OnOpen
     public void onOpen(Session session, @PathParam("roomId") String roomId) {
         roomSessions.putIfAbsent(roomId, new CopyOnWriteArraySet<>());
@@ -25,14 +25,19 @@ public class WebSocketServer {
     public void onMessage(String message, @PathParam("roomId") String roomId, Session session) throws IOException {
         System.out.println("Received in room " + roomId + ": " + message);
 
-        // Broadcast control commands (play, pause, skip) to all users in the room
-        if (message.startsWith("control:")) {
-            broadcastToRoom(roomId, message, session);
-        }
+        // Forward all video actions to other clients in the room
+        // Format examples:
+        // play:10.5       - Play at 10.5 seconds
+        // pause:20.3      - Pause at 20.3 seconds
+        // seek:30.0       - Seek to 30.0 seconds
+        // buffer:true     - Buffering state change
+        // end:0           - Video ended
+        broadcastToRoom(roomId, message, session);
     }
 
     private void broadcastToRoom(String roomId, String message, Session sender) throws IOException {
-        for (Session client : roomSessions.get(roomId)) {
+        Set<Session> clients = roomSessions.getOrDefault(roomId, new CopyOnWriteArraySet<>());
+        for (Session client : clients) {
             if (client.isOpen() && !client.equals(sender)) {
                 client.getBasicRemote().sendText(message);
             }
@@ -41,8 +46,9 @@ public class WebSocketServer {
 
     @OnClose
     public void onClose(Session session, @PathParam("roomId") String roomId) {
-        roomSessions.getOrDefault(roomId, Set.of()).remove(session);
-        if (roomSessions.get(roomId).isEmpty()) {
+        Set<Session> roomClients = roomSessions.getOrDefault(roomId, new CopyOnWriteArraySet<>());
+        roomClients.remove(session);
+        if (roomClients.isEmpty()) {
             roomSessions.remove(roomId);
         }
         System.out.println("Connection closed in room " + roomId + " - " + session.getId());
@@ -50,6 +56,6 @@ public class WebSocketServer {
 
     @OnError
     public void onError(Session session, Throwable throwable) {
-        System.err.println("Error: " + throwable.getMessage());
+        System.err.println("Error in WebSocket: " + throwable.getMessage());
     }
 }
