@@ -33,7 +33,7 @@ export default function LoginPage() {
         <div className="hidden md:flex md:items-center md:justify-center">
           <div className="h-full w-full bg-zinc-900 rounded-lg flex items-center justify-center">
             <img
-              src="/placeholder.svg?height=300&width=300"
+              src="/BingeBaddies.png?height=300&width=300"
               alt="Watch videos together"
               className="max-w-full h-auto"
             />
