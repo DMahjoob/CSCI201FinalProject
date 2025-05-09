@@ -29,20 +29,20 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen min-w-screen items-center justify-center bg-black p-4">
-      <div className="grid w-full max-w-[900px] grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid max-w-[900px] w-full mx-auto grid-cols-1 md:grid-cols-2 gap-6 h-full">
         <div className="hidden md:flex md:items-center md:justify-center">
           <div className="h-full w-full bg-zinc-900 rounded-lg flex items-center justify-center">
             <img
-              src="/logo.png?height=300&width=300"
+              src="logo.png"
               alt="Watch videos together"
-              className="max-w-full h-auto"
+              className="max-w-full h-auto drop-shadow-[0_0_15px_rgba(255,65,54,0.9)]"
             />
           </div>
         </div>
-
-        <Card className="w-full bg-zinc-900 text-white border-zinc-800">
+        <div className="flex items-center justify-center">
+        <Card className="w-full bg-zinc-900 text-white border-zinc-800 pb-25">
           <CardHeader>
-            <CardTitle className="text-xl font-medium text-center">Login</CardTitle>
+            <CardTitle className="text-xl font-medium text-center pt-20">Login</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
@@ -78,6 +78,7 @@ export default function LoginPage() {
             </form>
           </CardContent>
         </Card>
+        </div>
       </div>
     </div>
   )
