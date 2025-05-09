@@ -72,10 +72,9 @@ export default function DashboardPage() {
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-xl font-bold">Watch Party</h1>
           <Button
-            variant="destructive"
+            variant="red"
             size="icon"
             onClick={handleLogout}
-            className="text-zinc-400 hover:text-white hover:bg-zinc-800"
           >
             <LogOut size={20} />
           </Button>
@@ -87,14 +86,14 @@ export default function DashboardPage() {
           <CardContent className="p-6">
             <div className="flex flex-col items-center justify-center gap-8">
               <div className="text-center space-y-2">
-                <h2 className="text-2xl font-bold">Welcome, {user.username || user.email}</h2>
+                <h2 className="text-2xl text-zinc-100 font-bold">Welcome, {user.username || user.email}</h2>
                 <p className="text-zinc-400">Create a new watch party or join an existing one</p>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button className="bg-red-600 hover:bg-red-700 min-w-[150px]">Create Room</Button>
+                    <Button variant="red">Create Room</Button>
                   </DialogTrigger>
                   <DialogContent className="bg-zinc-900 border-zinc-800 text-white">
                     <DialogHeader>
@@ -113,7 +112,8 @@ export default function DashboardPage() {
                       </div>
                       <Button
                         onClick={handleCreateRoom}
-                        className="w-full bg-red-600 hover:bg-red-700"
+                        variant="red"
+                        className="w-full"
                         disabled={!youtubeUrl}
                       >
                         Create Room
@@ -124,7 +124,7 @@ export default function DashboardPage() {
 
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="outline" className="border-zinc-700 text-white hover:bg-zinc-800 min-w-[150px]">
+                    <Button variant="gray" className="min-w-[150px]">
                       Join Room
                     </Button>
                   </DialogTrigger>
@@ -145,7 +145,8 @@ export default function DashboardPage() {
                       </div>
                       <Button
                         onClick={handleJoinRoom}
-                        className="w-full bg-red-600 hover:bg-red-700"
+                        variant="red"
+                        className="w-full"
                         disabled={!roomId}
                       >
                         Join Room

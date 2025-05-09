@@ -222,7 +222,7 @@ export default function RoomPage() {
             onChange={(e) => setNewMessage(e.target.value)}
             className="bg-zinc-800 border-zinc-700 text-white"
           />
-          <Button type="submit" className="bg-red-600 hover:bg-red-700">
+          <Button variant="red" type="submit">
             Send
           </Button>
         </div>
@@ -232,7 +232,7 @@ export default function RoomPage() {
 
   return (
     <div className="min-h-screen min-w-screen bg-black text-white flex flex-col">
-      <header className="p-3 border-b border-zinc-800 flex justify-between items-center">
+      <header className="p-2 border-b border-zinc-800 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <h1 className="font-bold">Room: {roomInfo.id}</h1>
           <span className="text-xs bg-zinc-800 px-2 py-1 rounded">{roomInfo.isHost ? "Host" : "Guest"}</span>
@@ -250,15 +250,15 @@ export default function RoomPage() {
             <Button
               type="submit"
               size="sm"
-              variant="outline"
-              className="h-8 border-zinc-700 text-white hover:bg-zinc-800"
+              variant="gray"
+              className="h-8"
             >
               <User size={14} className="mr-1" />
               Update
             </Button>
           </form>
 
-          <Button size="sm" variant="destructive" onClick={handleLeaveRoom} className="h-8">
+          <Button size="sm" variant="red" onClick={handleLeaveRoom} className="h-8">
             Leave
           </Button>
         </div>
@@ -269,17 +269,24 @@ export default function RoomPage() {
           <>
             <div className="flex-1 h-[calc(100vh-64px)]">{renderVideoPlayer()}</div>
             {showChat && <div className="w-80 border-l border-zinc-800 h-[calc(100vh-64px)]">{renderChatPanel()}</div>}
+            {/* <div
+            className={`w-80 border-l border-zinc-800 h-[calc(100vh-64px)] transition-all duration-300 ease-in-out transform ${
+              showChat ? "translate-x-0 opacity-100" : "translate-x-full opacity-0 pointer-events-none"
+            }`}
+          >
+            {renderChatPanel()}
+          </div> */}
           </>
         ) : (
           <div className="flex-1 h-[calc(100vh-64px)]">{renderVideoPlayer()}</div>
         )}
       </main>
 
-      <div className="fixed bottom-4 right-4 z-10">
+      <div className="fixed bottom-4 right-20 z-10">
         {isDesktop ? (
           <Button
             onClick={() => setShowChat(!showChat)}
-            className={showChat ? "bg-red-600 hover:bg-red-700" : "bg-zinc-800 hover:bg-zinc-700"}
+            className={showChat ? "bg-zinc-800 hover:bg-zinc-700" : "bg-red-600 hover:bg-red-700"}
           >
             <MessageSquare size={18} className="mr-2" />
             {showChat ? "Hide Chat" : "Show Chat"}

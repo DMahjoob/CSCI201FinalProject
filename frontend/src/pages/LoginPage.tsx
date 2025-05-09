@@ -66,8 +66,8 @@ export default function LoginPage() {
                   className="bg-zinc-800 border-zinc-700 text-white"
                 />
               </div>
-              <Button type="submit" className="w-full bg-red-600 hover:bg-red-700" disabled={isLoading}>
-                {isLoading ? "Logging in..." : "Log in"}
+              <Button type="submit" variant="red" className="w-full" disabled={isLoading}>
+                  {isLoading ? "Logging in..." : "Log in"}
               </Button>
               <div className="text-center text-sm text-zinc-400">
                 Don&apos;t have an account?{" "}

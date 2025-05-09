@@ -12,10 +12,10 @@ export default function HomePage() {
         <CardContent className="flex flex-col gap-4">
           <p className="text-center text-zinc-400 mb-6">Watch videos together with friends in real-time</p>
           <div className="flex justify-center gap-4">
-            <Button asChild className="bg-red-600 hover:bg-red-700">
+            <Button asChild variant="red">
               <Link to="/login">Login</Link>
             </Button>
-            <Button asChild variant="outline" className="text-white border-zinc-700 hover:bg-zinc-800">
+            <Button asChild variant="gray">
               <Link to="/signup">Sign Up</Link>
             </Button>
           </div>
