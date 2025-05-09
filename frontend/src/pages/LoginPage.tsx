@@ -33,7 +33,7 @@ export default function LoginPage() {
         <div className="hidden md:flex md:items-center md:justify-center">
           <div className="h-full w-full bg-zinc-900 rounded-lg flex items-center justify-center">
             <img
-              src="/placeholder.svg?height=300&width=300"
+              src="/logo.png?height=300&width=300"
               alt="Watch videos together"
               className="max-w-full h-auto"
             />
@@ -66,8 +66,8 @@ export default function LoginPage() {
                   className="bg-zinc-800 border-zinc-700 text-white"
                 />
               </div>
-              <Button type="submit" className="w-full bg-red-600 hover:bg-red-700" disabled={isLoading}>
-                {isLoading ? "Logging in..." : "Log in"}
+              <Button type="submit" variant="red" className="w-full" disabled={isLoading}>
+                  {isLoading ? "Logging in..." : "Log in"}
               </Button>
               <div className="text-center text-sm text-zinc-400">
                 Don&apos;t have an account?{" "}
