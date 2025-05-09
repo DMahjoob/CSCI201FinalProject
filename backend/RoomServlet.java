@@ -27,7 +27,7 @@ public class RoomServlet extends HttpServlet {
         }
                 
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/BingeBaddies?user=root&password=Rayquaza10!");
-             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Rooms WHERE room_id = ?")) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Rooms WHERE room_id = ?")) {
 
             stmt.setString(1, roomId);
             ResultSet rs = stmt.executeQuery();
