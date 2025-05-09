@@ -6,7 +6,7 @@ import { useEffect, useState, useRef } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { MessageSquare, X, User, Play, Pause, SkipForward } from "lucide-react"
+import { MessageSquare, X, User } from "lucide-react"
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
 import { useMediaQuery } from "@/hooks/use-media-query"
 
@@ -157,6 +157,8 @@ export default function RoomPage() {
     const match = url?.match(regExp)
     return match && match[2].length === 11 ? match[2] : null
   }
+
+  console.log(isPlaying);
 
   useEffect(() => {
     // Check if user is authenticated
@@ -435,58 +437,6 @@ export default function RoomPage() {
     setMessages([...messages, message]);
   };
 
-  const handlePlayPause = () => {
-    if (!playerRef.current || !roomInfo) {
-      console.log("Cannot play/pause: player not initialized or room info missing");
-      return;
-    }
-    
-    // Only the host can control video playback
-    if (!roomInfo.isHost) {
-      console.log("Cannot play/pause: user is not the host");
-      return;
-    }
-    
-    console.log(`Manual play/pause triggered by host. Current state: ${isPlaying ? 'playing' : 'paused'}`);
-    
-    if (isPlaying) {
-      console.log("Pausing video via UI controls");
-      playerRef.current.pauseVideo();
-    } else {
-      console.log("Playing video via UI controls");
-      playerRef.current.playVideo();
-    }
-    // Player state change will trigger the update to backend
-  };
-
-  const handleSkipForward = () => {
-    if (!playerRef.current || !user || !roomInfo) {
-      console.log("Cannot skip forward: player not initialized or user/room info missing");
-      return;
-    }
-    
-    // Only the host can control video playback
-    if (!roomInfo.isHost) {
-      console.log("Cannot skip forward: user is not the host");
-      return;
-    }
-    
-    const currentTime = playerRef.current.getCurrentTime();
-    console.log(`Host skipping forward 10 seconds from ${currentTime.toFixed(2)}`);
-    
-    playerRef.current.seekTo(currentTime + 10, true);
-    
-    // Manually send seek event
-    const playerUpdate: PlayerStateUpdate = {
-      action: 'seek',
-      timestamp: Date.now(),
-      videoTime: currentTime + 10,
-      userId: user.id,
-      roomId: roomInfo.id || '',
-    };
-    sendPlayerUpdate(playerUpdate);
-  };
-
   const handleLeaveRoom = () => {
     console.log("Leaving room");
     localStorage.removeItem("currentRoom");
@@ -541,27 +491,6 @@ export default function RoomPage() {
             <p className="text-sm text-zinc-400 mt-2">Waiting for host to start a video...</p>
           </div>
         )}
-
-        {/* {roomInfo?.isHost && (
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 bg-black/70 p-2 rounded-full">
-            <Button
-              size="icon"
-              variant="ghost"
-              className="rounded-full text-white hover:bg-zinc-700"
-              onClick={handlePlayPause}
-            >
-              {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-            </Button>
-            <Button
-              size="icon"
-              variant="ghost"
-              className="rounded-full text-white hover:bg-zinc-700"
-              onClick={handleSkipForward}
-            >
-              <SkipForward size={20} />
-            </Button>
-          </div>
-        )} */}
       </div>
     );
   }
