@@ -528,7 +528,6 @@ export default function RoomPage() {
   }
 
 
-
   const renderVideoPlayer = () => {
     const videoId = roomInfo?.youtubeUrl ? getYouTubeVideoId(roomInfo.youtubeUrl) : null;
     
@@ -543,7 +542,7 @@ export default function RoomPage() {
           </div>
         )}
 
-        {roomInfo?.isHost && (
+        {/* {roomInfo?.isHost && (
           <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 bg-black/70 p-2 rounded-full">
             <Button
               size="icon"
@@ -562,7 +561,7 @@ export default function RoomPage() {
               <SkipForward size={20} />
             </Button>
           </div>
-        )}
+        )} */}
       </div>
     );
   }
@@ -639,7 +638,7 @@ export default function RoomPage() {
             <Button
               type="submit"
               size="sm"
-              variant="outline"
+              variant="gray"
               className="h-8 border-zinc-700 text-white hover:bg-zinc-800"
             >
               <User size={14} className="mr-1" />
@@ -668,7 +667,7 @@ export default function RoomPage() {
         {isDesktop ? (
           <Button
             onClick={() => setShowChat(!showChat)}
-            className={showChat ? "bg-red-600 hover:bg-red-700" : "bg-zinc-800 hover:bg-zinc-700"}
+            className={showChat ? "bg-zinc-800 hover:bg-zinc-700" : "bg-red-600 hover:bg-red-700"}
           >
             <MessageSquare size={18} className="mr-2" />
             {showChat ? "Hide Chat" : "Show Chat"}
