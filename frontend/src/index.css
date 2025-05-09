@@ -83,15 +83,7 @@ h1 {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
-<<<<<<< HEAD
-}
-
-button:hover {
-  border-color: #646cff;
-}
-=======
 } */
->>>>>>> a4b040d06abf2ac5b119c552bea3032e37087690
 
 button:focus,
 button:focus-visible {
@@ -104,11 +96,7 @@ button:focus-visible {
     background-color: #ffffff;
   }
   a:hover {
-<<<<<<< HEAD
-    color: #ffffff;
-=======
     /* color: #ffffff; */
->>>>>>> a4b040d06abf2ac5b119c552bea3032e37087690
   }
   button {
     /* background-color: #dc2626; */
