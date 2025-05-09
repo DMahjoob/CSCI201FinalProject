@@ -12,9 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/room")
 public class RoomServlet extends HttpServlet {
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/BingeBaddies";
-    private static final String JDBC_USER = "root";
-    private static final String JDBC_PASSWORD = "Rayquaza10!";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -28,8 +25,8 @@ public class RoomServlet extends HttpServlet {
             out.print("{\"status\":\"error\",\"message\":\"Room ID is required\"}");
             return;
         }
-
-        try (Connection conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+                
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/BingeBaddies?user=root&password=Rayquaza10!");
              PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Rooms WHERE room_id = ?")) {
 
             stmt.setString(1, roomId);
