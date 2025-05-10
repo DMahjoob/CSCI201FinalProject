@@ -14,17 +14,53 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
 
+  const [error, setError] = useState("")
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+    setError("")
 
-    // Simulate authentication
-    setTimeout(() => {
-      // In a real app, you would validate credentials with your backend
-      localStorage.setItem("user", JSON.stringify({ email, isAuthenticated: true }))
+    try {
+      const response = await fetch('http://localhost:8080/CS201FP/Login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      })
+
+      const data = await response.json()
+
+      if (data.status === 'success') {
+        // Get user info from the database response
+        localStorage.setItem("user", JSON.stringify({
+          id: data.userId,
+          email,
+          username: data.username || email.split('@')[0],
+          isAuthenticated: true,
+          isGuest: false
+        }))
+
+        setIsLoading(false)
+        navigate("/dashboard")
+      } else if (data.status === 'incorrect') {
+        setError("Incorrect email or password")
+        setIsLoading(false)
+      } else if (data.status === 'invalid') {
+        setError("Invalid email")
+        setIsLoading(false)
+      } else {
+        throw new Error('Unknown error')
+      }
+    } catch (error) {
+      console.error('Login error:', error)
+      setError("Failed to login. Please try again.")
       setIsLoading(false)
-      navigate("/dashboard")
-    }, 1000)
+    }
   }
 
   return (
@@ -66,6 +102,11 @@ export default function LoginPage() {
                   className="bg-zinc-800 border-zinc-700 text-white"
                 />
               </div>
+              {error && (
+                <div className="text-red-500 text-sm text-center py-2">
+                  {error}
+                </div>
+              )}
               <Button type="submit" variant="red" className="w-full" disabled={isLoading}>
                   {isLoading ? "Logging in..." : "Log in"}
               </Button>

@@ -146,10 +146,14 @@ export default function RoomPage() {
   const [showChat, setShowChat] = useState(false)
   const [currentVideoTime, setCurrentVideoTime] = useState(0)
   const navigate = useNavigate()
+  const isDesktop = useMediaQuery("(min-width: 768px)")
+  
+  // All refs need to be declared together to maintain consistent hook order
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const playerRef = useRef<YT.Player | null>(null)
-  const isDesktop = useMediaQuery("(min-width: 768px)")
   const playerContainerRef = useRef<HTMLDivElement>(null)
+  const initialLoadRef = useRef<boolean>(true)
+  const wsRef = useRef<WebSocket | null>(null)
 
   // YouTube video ID extraction function
   const getYouTubeVideoId = (url: string) => {
@@ -159,6 +163,8 @@ export default function RoomPage() {
   }
 
   console.log(isPlaying);
+
+  // We need to use a consistent hook ordering - WebSocket reference is declared above with other refs
 
   useEffect(() => {
     // Check if user is authenticated
@@ -170,24 +176,139 @@ export default function RoomPage() {
 
     const userData = JSON.parse(storedUser)
     setUser(userData)
-    setDisplayName(userData.username || userData.email.split("@")[0])
-
-    // Get room info
-    const storedRoom = localStorage.getItem("currentRoom")
-    if (!storedRoom) {
+    setDisplayName(userData.username || userData.email?.split("@")[0] || `Guest ${userData.id.split('_')[1] || ''}`)
+    
+    if (!id) {
       navigate("/dashboard")
       return
     }
+    
+    // Fetch room info from the backend database
+    const fetchRoomInfo = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/CS201FP/JoinRoomServlet?roomCode=${id}&user_id=${userData.id}`, {
+          method: 'POST',
+        });
+        
+        if (!response.ok) {
+          console.error(`Error fetching room info: ${response.status}`);
+          navigate("/dashboard");
+          return;
+        }
+        
+        const data = await response.json();
+        
+        if (data.error) {
+          console.error("Error fetching room info:", data.error);
+          navigate("/dashboard");
+          return;
+        }
+        
+        // Server already returns whether the user is the host
+        const roomInfo: RoomInfo = {
+          id: data.id, // Server returns 'id' as the room code
+          youtubeUrl: data.youtubeUrl, // Server returns 'youtubeUrl'
+          isHost: data.isHost // Server returns 'isHost' boolean
+        };
+        
+        setRoomInfo(roomInfo);
+        
+        // Store updated room info in localStorage
+        localStorage.setItem("currentRoom", JSON.stringify(roomInfo));
+      } catch (error) {
+        console.error("Failed to fetch room info:", error);
+      }
+    };
+    
+    fetchRoomInfo();
 
-    const roomData = JSON.parse(storedRoom)
-    if (roomData.id !== id) {
-      navigate("/dashboard")
-      return
-    }
+    // Connect to the WebSocket server for this room
+    const wsUrl = `ws://localhost:8080/CS201FP/room/${id}`;
+    const ws = new WebSocket(wsUrl);
+    wsRef.current = ws;
 
-    setRoomInfo(roomData)
+    ws.onopen = () => {
+      console.log(`WebSocket connection established for room ${id}`);
+      // Send a message to announce the user has joined
+      const joinMessage = {
+        type: 'chat',
+        sender: displayName || userData.username || 'User',
+        text: 'has joined the room',
+        timestamp: Date.now(),
+        userId: userData.id,
+        roomId: id
+      };
+      ws.send(JSON.stringify(joinMessage));
+    };
 
-    // Add some sample messages
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      console.log('WebSocket message received:', data);
+
+      if (data.type === 'chat') {
+        // Handle chat message
+        const newMessage: Message = {
+          id: data.id || Date.now().toString(),
+          sender: data.sender,
+          text: data.text,
+          timestamp: data.timestamp || Date.now()
+        };
+        setMessages(prev => [...prev, newMessage]);
+      } else if (data.type === 'video_update') {
+        // Handle video URL updates from host
+        if (!roomInfo?.isHost && data.videoUrl) {
+          console.log(`Received video update via WebSocket: ${data.videoUrl}`);
+          
+          // Update room info with new video URL
+          setRoomInfo(prev => ({
+            ...prev!,
+            youtubeUrl: data.videoUrl
+          }));
+          
+          // Add system message about video change
+          const newMessage: Message = {
+            id: Date.now().toString(),
+            sender: 'System',
+            text: 'Host has changed the video.',
+            timestamp: Date.now()
+          };
+          setMessages(prev => [...prev, newMessage]);
+        }
+      } else if (data.type === 'control' || data.startsWith('control:')) {
+        // Handle video control actions
+        const controlData = data.startsWith('control:') 
+          ? JSON.parse(data.substring(8)) 
+          : data;
+        
+        if (playerRef.current && !roomInfo?.isHost) {
+          console.log('Received control message:', controlData);
+          
+          switch(controlData.action) {
+            case 'play':
+              playerRef.current.playVideo();
+              setIsPlaying(true);
+              break;
+            case 'pause':
+              playerRef.current.pauseVideo();
+              setIsPlaying(false);
+              break;
+            case 'seek':
+              playerRef.current.seekTo(controlData.videoTime, true);
+              break;
+          }
+        }
+      }
+    };
+
+    ws.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    ws.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+
+    // Add initial system message
     setMessages([
       {
         id: "1",
@@ -199,11 +320,23 @@ export default function RoomPage() {
 
     // Cleanup function
     return () => {
-      // In a real app, you would disconnect from any real-time services here
+      // Send a leave message before disconnecting
+      if (ws.readyState === WebSocket.OPEN) {
+        const leaveMessage = {
+          type: 'chat',
+          sender: displayName || userData.username || 'User',
+          text: 'has left the room',
+          timestamp: Date.now(),
+          userId: userData.id,
+          roomId: id
+        };
+        ws.send(JSON.stringify(leaveMessage));
+        ws.close();
+      }
     }
   }, [id, navigate])
 
-  // Send player update to backend
+  // Send player update to backend and other clients via WebSocket
   const sendPlayerUpdate = async (update: PlayerStateUpdate) => {
     try {
       console.log('🔵 PLAYER UPDATE:', {
@@ -214,25 +347,26 @@ export default function RoomPage() {
         roomId: update.roomId
       });
       
-      // In a real implementation, you would send this to your backend
-      // Example using fetch:
-      /*
-      console.log('Sending API request to backend...');
-      const response = await fetch('/api/player-update', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(update),
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to send player update');
+      // Send update via WebSocket to all clients in the room
+      if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+        // Format the message for the WebSocketServer
+        const controlMessage = {
+          type: 'control',
+          action: update.action,
+          videoTime: update.videoTime,
+          timestamp: update.timestamp,
+          userId: update.userId,
+          roomId: update.roomId
+        };
+        
+        // Send the control message
+        wsRef.current.send(JSON.stringify(controlMessage));
+        console.log('Sent control message via WebSocket');
+      } else {
+        console.error('WebSocket not connected, cannot send player update');
       }
-      console.log('API response received:', response.status);
-      */
       
-      // For now, just add a system message to demonstrate
+      // Add a system message to the chat for clarity
       if (update.action !== 'buffer') {
         const actionText: Record<PlayerAction, string> = {
           play: 'started playing',
@@ -254,7 +388,7 @@ export default function RoomPage() {
         setMessages(prev => [...prev, message]);
       }
     } catch (error) {
-      console.error('❌ Error sending player update:', error);
+      console.error('Failed to send player update:', error);
     }
   };
 
@@ -405,18 +539,44 @@ export default function RoomPage() {
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newMessage.trim()) return;
+    if (!newMessage.trim() || !user || !roomInfo) return;
 
     console.log(`Sending chat message: ${newMessage}`);
     
-    const message: Message = {
+    // Create message object
+    const messageObj = {
+      type: 'chat',
       id: Date.now().toString(),
       sender: displayName,
       text: newMessage,
       timestamp: Date.now(),
+      userId: user.id,
+      roomId: roomInfo.id
     };
-
+    
+    // Add message to local state immediately for responsive UI
+    const message: Message = {
+      id: messageObj.id,
+      sender: displayName,
+      text: newMessage,
+      timestamp: messageObj.timestamp,
+    };
     setMessages([...messages, message]);
+    
+    // Send message via WebSocket if connected
+    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify(messageObj));
+    } else {
+      console.error('WebSocket not connected, cannot send message');
+      // Add system message about connection issue
+      setMessages(prev => [...prev, {
+        id: Date.now().toString(),
+        sender: 'System',
+        text: 'Connection issue: Message may not be delivered to other users',
+        timestamp: Date.now()
+      }]);
+    }
+    
     setNewMessage("");
   };
 
@@ -478,6 +638,46 @@ export default function RoomPage() {
   }
 
 
+  // Video URL and other information is now fetched only on initial load
+  // and updated through WebSocket messages instead of polling
+  
+  // When a host changes the video URL, send it to the server
+  useEffect(() => {
+    if (!roomInfo?.isHost || !roomInfo.youtubeUrl || !user?.id || !id) return;
+    
+    // Avoid running on initial load
+    const updateVideoUrl = async () => {
+      try {
+        // 1. Notify other users about the video change via WebSocket
+        if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+          console.log(`Host sending video URL update: ${roomInfo.youtubeUrl}`);
+          
+          const updateMessage = {
+            type: 'video_update',
+            videoUrl: roomInfo.youtubeUrl,
+            userId: user.id,
+            roomId: id
+          };
+          wsRef.current.send(JSON.stringify(updateMessage));
+        }
+        
+        // 2. Update the video link in the database (could be done via separate servlet)
+        // For now we'll just rely on the WebSocket to relay the updates to guests
+      } catch (error) {
+        console.error("Failed to update video URL:", error);
+      }
+    };
+    
+    // We use a ref to track if this is the initial load
+    if (initialLoadRef.current) {
+      initialLoadRef.current = false;
+    } else {
+      updateVideoUrl();
+    }
+  }, [roomInfo?.youtubeUrl]);
+  
+
+  
   const renderVideoPlayer = () => {
     const videoId = roomInfo?.youtubeUrl ? getYouTubeVideoId(roomInfo.youtubeUrl) : null;
     
@@ -551,7 +751,7 @@ export default function RoomPage() {
     <div className="min-h-screen min-w-screen bg-black text-white flex flex-col">
       <header className="p-3 border-b border-zinc-800 flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <h1 className="font-bold">Room: {roomInfo?.id}</h1>
+          <h1 className="font-bold">Room Code: {roomInfo?.id}</h1>
           <span className="text-xs bg-zinc-800 px-2 py-1 rounded">{roomInfo?.isHost ? "Host" : "Guest"}</span>
         </div>
 

@@ -25,36 +25,95 @@ export default function DashboardPage() {
     setUser(JSON.parse(storedUser))
   }, [navigate])
 
-  const handleCreateRoom = () => {
-    // Generate a random room ID
-    const newRoomId = Math.random().toString(36).substring(2, 8)
-
-    // Store room info
-    localStorage.setItem(
-      "currentRoom",
-      JSON.stringify({
-        id: newRoomId,
-        youtubeUrl,
-        isHost: true,
-      }),
-    )
-
-    navigate(`/room/${newRoomId}`)
+  const handleCreateRoom = async () => {
+    if (!youtubeUrl) {
+      alert("Please enter a YouTube URL");
+      return;
+    }
+    
+    // Get user ID from localStorage
+    const storedUser = localStorage.getItem("user");
+    if (!storedUser) {
+      navigate("/login");
+      return;
+    }
+    
+    const userData = JSON.parse(storedUser);
+    
+    try {
+      // Create a room via the backend API
+      const response = await fetch('http://localhost:8080/CS201FP/RoomCreationServlet', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          'email': userData.email,
+          'roomName': 'Watch Party', // Default room name
+          'video_link': youtubeUrl
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Error creating room: ${response.status}`);
+      }
+      
+      const roomInfo = await response.json();
+      
+      // Store room info in localStorage
+      localStorage.setItem("currentRoom", JSON.stringify(roomInfo));
+      
+      // Navigate to the room
+      navigate(`/room/${roomInfo.id}`);
+    } catch (error) {
+      console.error("Failed to create room:", error);
+      alert("Failed to create room. Please try again.");
+    }
   }
 
-  const handleJoinRoom = () => {
-    if (!roomId) return
-
-    // Store room info
-    localStorage.setItem(
-      "currentRoom",
-      JSON.stringify({
-        id: roomId,
-        isHost: false,
-      }),
-    )
-
-    navigate(`/room/${roomId}`)
+  const handleJoinRoom = async () => {
+    if (!roomId) {
+      alert("Please enter a room code");
+      return;
+    }
+    
+    // Get user ID from localStorage
+    const storedUser = localStorage.getItem("user");
+    if (!storedUser) {
+      navigate("/login");
+      return;
+    }
+    
+    const userData = JSON.parse(storedUser);
+    
+    try {
+      // Join a room via the backend API
+      const response = await fetch('http://localhost:8080/CS201FP/JoinRoomServlet', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          'user_id': userData.id,
+          'roomCode': roomId
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Error joining room: ${response.status}`);
+      }
+      
+      const roomInfo = await response.json();
+      
+      // Store room info in localStorage
+      localStorage.setItem("currentRoom", JSON.stringify(roomInfo));
+      
+      // Navigate to the room
+      navigate(`/room/${roomId}`);
+    } catch (error) {
+      console.error("Failed to join room:", error);
+      alert("Failed to join room. Please check the room code and try again.");
+    }
   }
 
   const handleLogout = () => {

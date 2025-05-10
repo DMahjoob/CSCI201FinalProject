@@ -43,8 +43,6 @@ The content is organized as follows:
 </file_summary>
 
 <directory_structure>
-public/
-  vite.svg
 src/
   assets/
     react.svg
@@ -86,10 +84,6 @@ vite.config.ts
 <files>
 This section contains the contents of the repository's files.
 
-<file path="public/vite.svg">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="31.88" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 257"><defs><linearGradient id="IconifyId1813088fe1fbc01fb466" x1="-.828%" x2="57.636%" y1="7.652%" y2="78.411%"><stop offset="0%" stop-color="#41D1FF"></stop><stop offset="100%" stop-color="#BD34FE"></stop></linearGradient><linearGradient id="IconifyId1813088fe1fbc01fb467" x1="43.376%" x2="50.316%" y1="2.242%" y2="89.03%"><stop offset="0%" stop-color="#FFEA83"></stop><stop offset="8.333%" stop-color="#FFDD35"></stop><stop offset="100%" stop-color="#FFA800"></stop></linearGradient></defs><path fill="url(#IconifyId1813088fe1fbc01fb466)" d="M255.153 37.938L134.897 252.976c-2.483 4.44-8.862 4.466-11.382.048L.875 37.958c-2.746-4.814 1.371-10.646 6.827-9.67l120.385 21.517a6.537 6.537 0 0 0 2.322-.004l117.867-21.483c5.438-.991 9.574 4.796 6.877 9.62Z"></path><path fill="url(#IconifyId1813088fe1fbc01fb467)" d="M185.432.063L96.44 17.501a3.268 3.268 0 0 0-2.634 3.014l-5.474 92.456a3.268 3.268 0 0 0 3.997 3.378l24.777-5.718c2.318-.535 4.413 1.507 3.936 3.838l-7.361 36.047c-.495 2.426 1.782 4.5 4.151 3.78l15.304-4.649c2.372-.72 4.652 1.36 4.15 3.788l-11.698 56.621c-.732 3.542 3.979 5.473 5.943 2.437l1.313-2.028l72.516-144.72c1.215-2.423-.88-5.186-3.54-4.672l-25.505 4.922c-2.396.462-4.435-1.77-3.759-4.114l16.646-57.705c.677-2.35-1.37-4.583-3.769-4.113Z"></path></svg>
-</file>
-
 <file path="src/assets/react.svg">
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="35.93" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 228"><path fill="#00D8FF" d="M210.483 73.824a171.49 171.49 0 0 0-8.24-2.597c.465-1.9.893-3.777 1.273-5.621c6.238-30.281 2.16-54.676-11.769-62.708c-13.355-7.7-35.196.329-57.254 19.526a171.23 171.23 0 0 0-6.375 5.848a155.866 155.866 0 0 0-4.241-3.917C100.759 3.829 77.587-4.822 63.673 3.233C50.33 10.957 46.379 33.89 51.995 62.588a170.974 170.974 0 0 0 1.892 8.48c-3.28.932-6.445 1.924-9.474 2.98C17.309 83.498 0 98.307 0 113.668c0 15.865 18.582 31.778 46.812 41.427a145.52 145.52 0 0 0 6.921 2.165a167.467 167.467 0 0 0-2.01 9.138c-5.354 28.2-1.173 50.591 12.134 58.266c13.744 7.926 36.812-.22 59.273-19.855a145.567 145.567 0 0 0 5.342-4.923a168.064 168.064 0 0 0 6.92 6.314c21.758 18.722 43.246 26.282 56.54 18.586c13.731-7.949 18.194-32.003 12.4-61.268a145.016 145.016 0 0 0-1.535-6.842c1.62-.48 3.21-.974 4.76-1.488c29.348-9.723 48.443-25.443 48.443-41.52c0-15.417-17.868-30.326-45.517-39.844Zm-6.365 70.984c-1.4.463-2.836.91-4.3 1.345c-3.24-10.257-7.612-21.163-12.963-32.432c5.106-11 9.31-21.767 12.459-31.957c2.619.758 5.16 1.557 7.61 2.4c23.69 8.156 38.14 20.213 38.14 29.504c0 9.896-15.606 22.743-40.946 31.14Zm-10.514 20.834c2.562 12.94 2.927 24.64 1.23 33.787c-1.524 8.219-4.59 13.698-8.382 15.893c-8.067 4.67-25.32-1.4-43.927-17.412a156.726 156.726 0 0 1-6.437-5.87c7.214-7.889 14.423-17.06 21.459-27.246c12.376-1.098 24.068-2.894 34.671-5.345a134.17 134.17 0 0 1 1.386 6.193ZM87.276 214.515c-7.882 2.783-14.16 2.863-17.955.675c-8.075-4.657-11.432-22.636-6.853-46.752a156.923 156.923 0 0 1 1.869-8.499c10.486 2.32 22.093 3.988 34.498 4.994c7.084 9.967 14.501 19.128 21.976 27.15a134.668 134.668 0 0 1-4.877 4.492c-9.933 8.682-19.886 14.842-28.658 17.94ZM50.35 144.747c-12.483-4.267-22.792-9.812-29.858-15.863c-6.35-5.437-9.555-10.836-9.555-15.216c0-9.322 13.897-21.212 37.076-29.293c2.813-.98 5.757-1.905 8.812-2.773c3.204 10.42 7.406 21.315 12.477 32.332c-5.137 11.18-9.399 22.249-12.634 32.792a134.718 134.718 0 0 1-6.318-1.979Zm12.378-84.26c-4.811-24.587-1.616-43.134 6.425-47.789c8.564-4.958 27.502 2.111 47.463 19.835a144.318 144.318 0 0 1 3.841 3.545c-7.438 7.987-14.787 17.08-21.808 26.988c-12.04 1.116-23.565 2.908-34.161 5.309a160.342 160.342 0 0 1-1.76-7.887Zm110.427 27.268a347.8 347.8 0 0 0-7.785-12.803c8.168 1.033 15.994 2.404 23.343 4.08c-2.206 7.072-4.956 14.465-8.193 22.045a381.151 381.151 0 0 0-7.365-13.322Zm-45.032-43.861c5.044 5.465 10.096 11.566 15.065 18.186a322.04 322.04 0 0 0-30.257-.006c4.974-6.559 10.069-12.652 15.192-18.18ZM82.802 87.83a323.167 323.167 0 0 0-7.227 13.238c-3.184-7.553-5.909-14.98-8.134-22.152c7.304-1.634 15.093-2.97 23.209-3.984a321.524 321.524 0 0 0-7.848 12.897Zm8.081 65.352c-8.385-.936-16.291-2.203-23.593-3.793c2.26-7.3 5.045-14.885 8.298-22.6a321.187 321.187 0 0 0 7.257 13.246c2.594 4.48 5.28 8.868 8.038 13.147Zm37.542 31.03c-5.184-5.592-10.354-11.779-15.403-18.433c4.902.192 9.899.29 14.978.29c5.218 0 10.376-.117 15.453-.343c-4.985 6.774-10.018 12.97-15.028 18.486Zm52.198-57.817c3.422 7.8 6.306 15.345 8.596 22.52c-7.422 1.694-15.436 3.058-23.88 4.071a382.417 382.417 0 0 0 7.859-13.026a347.403 347.403 0 0 0 7.425-13.565Zm-16.898 8.101a358.557 358.557 0 0 1-12.281 19.815a329.4 329.4 0 0 1-23.444.823c-7.967 0-15.716-.248-23.178-.732a310.202 310.202 0 0 1-12.513-19.846h.001a307.41 307.41 0 0 1-10.923-20.627a310.278 310.278 0 0 1 10.89-20.637l-.001.001a307.318 307.318 0 0 1 12.413-19.761c7.613-.576 15.42-.876 23.31-.876H128c7.926 0 15.743.303 23.354.883a329.357 329.357 0 0 1 12.335 19.695a358.489 358.489 0 0 1 11.036 20.54a329.472 329.472 0 0 1-11 20.722Zm22.56-122.124c8.572 4.944 11.906 24.881 6.52 51.026c-.344 1.668-.73 3.367-1.15 5.09c-10.622-2.452-22.155-4.275-34.23-5.408c-7.034-10.017-14.323-19.124-21.64-27.008a160.789 160.789 0 0 1 5.888-5.4c18.9-16.447 36.564-22.941 44.612-18.3ZM128 90.808c12.625 0 22.86 10.235 22.86 22.86s-10.235 22.86-22.86 22.86s-22.86-10.235-22.86-22.86s10.235-22.86 22.86-22.86Z"></path></svg>
 </file>
@@ -108,6 +102,10 @@ const buttonVariants = cva(
       variant: {
         default:
           "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+        red: 
+          "bg-red-600 text-white border-red-700 hover:bg-red-700",
+        gray:
+          "text-white border-zinc-700 bg-zinc-600 hover:bg-zinc-700 transition-colors duration-200",
         destructive:
           "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
@@ -144,10 +142,16 @@ function Button({
   }) {
   const Comp = asChild ? Slot : "button"
 
+  const computedClassName = cn(buttonVariants({ variant, size }), className)
+  console.log("Button variant:", variant)
+  console.log("Computed className:", computedClassName)
+  console.log("asChild is", asChild);
+
+
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(buttonVariants({ variant, size }), className)}
       {...props}
     />
   )
@@ -680,15 +684,14 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen min-w-screen bg-black text-white">
       <header className="p-4 border-b border-zinc-800">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-xl font-bold">Watch Party</h1>
           <Button
-            variant="ghost"
+            variant="red"
             size="icon"
             onClick={handleLogout}
-            className="text-zinc-400 hover:text-white hover:bg-zinc-800"
           >
             <LogOut size={20} />
           </Button>
@@ -700,14 +703,14 @@ export default function DashboardPage() {
           <CardContent className="p-6">
             <div className="flex flex-col items-center justify-center gap-8">
               <div className="text-center space-y-2">
-                <h2 className="text-2xl font-bold">Welcome, {user.username || user.email}</h2>
+                <h2 className="text-2xl text-zinc-100 font-bold">Welcome, {user.username || user.email}</h2>
                 <p className="text-zinc-400">Create a new watch party or join an existing one</p>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button className="bg-red-600 hover:bg-red-700 min-w-[150px]">Create Room</Button>
+                    <Button variant="red">Create Room</Button>
                   </DialogTrigger>
                   <DialogContent className="bg-zinc-900 border-zinc-800 text-white">
                     <DialogHeader>
@@ -726,7 +729,8 @@ export default function DashboardPage() {
                       </div>
                       <Button
                         onClick={handleCreateRoom}
-                        className="w-full bg-red-600 hover:bg-red-700"
+                        variant="red"
+                        className="w-full"
                         disabled={!youtubeUrl}
                       >
                         Create Room
@@ -737,7 +741,7 @@ export default function DashboardPage() {
 
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="outline" className="border-zinc-700 text-white hover:bg-zinc-800 min-w-[150px]">
+                    <Button variant="gray" className="min-w-[150px]">
                       Join Room
                     </Button>
                   </DialogTrigger>
@@ -758,7 +762,8 @@ export default function DashboardPage() {
                       </div>
                       <Button
                         onClick={handleJoinRoom}
-                        className="w-full bg-red-600 hover:bg-red-700"
+                        variant="red"
+                        className="w-full"
                         disabled={!roomId}
                       >
                         Join Room
@@ -783,7 +788,7 @@ import { Link } from "react-router-dom"
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-black p-4">
+    <main className="flex min-h-screen min-w-screen flex-col items-center justify-center bg-black p-4">
       <Card className="w-full max-w-md bg-zinc-900 text-white border-zinc-800">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">Watch Party</CardTitle>
@@ -791,10 +796,10 @@ export default function HomePage() {
         <CardContent className="flex flex-col gap-4">
           <p className="text-center text-zinc-400 mb-6">Watch videos together with friends in real-time</p>
           <div className="flex justify-center gap-4">
-            <Button asChild className="bg-red-600 hover:bg-red-700">
+            <Button asChild variant="red">
               <Link to="/login">Login</Link>
             </Button>
-            <Button asChild variant="outline" className="text-white border-zinc-700 hover:bg-zinc-800">
+            <Button asChild variant="gray">
               <Link to="/signup">Sign Up</Link>
             </Button>
           </div>
@@ -836,21 +841,21 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-black p-4">
-      <div className="grid w-full max-w-[900px] grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="flex min-h-screen min-w-screen items-center justify-center bg-black p-4">
+      <div className="grid max-w-[900px] w-full mx-auto grid-cols-1 md:grid-cols-2 gap-6 h-full">
         <div className="hidden md:flex md:items-center md:justify-center">
           <div className="h-full w-full bg-zinc-900 rounded-lg flex items-center justify-center">
             <img
-              src="/placeholder.svg?height=300&width=300"
+              src="logo.png"
               alt="Watch videos together"
-              className="max-w-full h-auto"
+              className="max-w-full h-auto drop-shadow-[0_0_15px_rgba(255,65,54,0.9)]"
             />
           </div>
         </div>
-
-        <Card className="w-full bg-zinc-900 text-white border-zinc-800">
+        <div className="flex items-center justify-center">
+        <Card className="w-full bg-zinc-900 text-white border-zinc-800 pb-25">
           <CardHeader>
-            <CardTitle className="text-xl font-medium text-center">Login</CardTitle>
+            <CardTitle className="text-xl font-medium text-center pt-20">Login</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
@@ -874,8 +879,8 @@ export default function LoginPage() {
                   className="bg-zinc-800 border-zinc-700 text-white"
                 />
               </div>
-              <Button type="submit" className="w-full bg-red-600 hover:bg-red-700" disabled={isLoading}>
-                {isLoading ? "Logging in..." : "Log in"}
+              <Button type="submit" variant="red" className="w-full" disabled={isLoading}>
+                  {isLoading ? "Logging in..." : "Log in"}
               </Button>
               <div className="text-center text-sm text-zinc-400">
                 Don&apos;t have an account?{" "}
@@ -886,6 +891,7 @@ export default function LoginPage() {
             </form>
           </CardContent>
         </Card>
+        </div>
       </div>
     </div>
   )
@@ -901,35 +907,150 @@ import { useEffect, useState, useRef } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { MessageSquare, X, User, Play, Pause, SkipForward } from "lucide-react"
+import { MessageSquare, X, User } from "lucide-react"
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
 import { useMediaQuery } from "@/hooks/use-media-query"
 
+// Declare YouTube IFrame API types
+declare global {
+  interface Window {
+    YT: typeof YT;
+    onYouTubeIframeAPIReady: () => void;
+  }
+}
+
+declare namespace YT {
+  class Player {
+    constructor(elementId: HTMLDivElement | string, options: PlayerOptions);
+    playVideo(): void;
+    pauseVideo(): void;
+    stopVideo(): void;
+    seekTo(seconds: number, allowSeekAhead: boolean): void;
+    getCurrentTime(): number;
+    getDuration(): number;
+    getVideoUrl(): string;
+    getPlayerState(): number;
+    destroy(): void;
+  }
+
+  interface PlayerOptions {
+    videoId?: string;
+    width?: number;
+    height?: number;
+    playerVars?: PlayerVars;
+    events?: Events;
+  }
+
+  interface PlayerVars {
+    autoplay?: 0 | 1;
+    cc_load_policy?: 0 | 1;
+    color?: 'red' | 'white';
+    controls?: 0 | 1 | 2;
+    disablekb?: 0 | 1;
+    enablejsapi?: 0 | 1;
+    end?: number;
+    fs?: 0 | 1;
+    hl?: string;
+    iv_load_policy?: 1 | 3;
+    list?: string;
+    listType?: 'playlist' | 'search' | 'user_uploads';
+    loop?: 0 | 1;
+    modestbranding?: 0 | 1;
+    origin?: string;
+    playlist?: string;
+    playsinline?: 0 | 1;
+    rel?: 0 | 1;
+    start?: number;
+    widget_referrer?: string;
+  }
+
+  interface Events {
+    onReady?: (event: PlayerEvent) => void;
+    onStateChange?: (event: OnStateChangeEvent) => void;
+    onPlaybackQualityChange?: (event: PlaybackQualityEvent) => void;
+    onPlaybackRateChange?: (event: PlaybackRateEvent) => void;
+    onError?: (event: ErrorEvent) => void;
+    onApiChange?: (event: ApiChangeEvent) => void;
+  }
+
+  interface PlayerEvent {
+    target: Player;
+  }
+
+  interface OnStateChangeEvent {
+    target: Player;
+    data: number;
+  }
+
+  interface PlaybackQualityEvent {
+    target: Player;
+    data: string;
+  }
+
+  interface PlaybackRateEvent {
+    target: Player;
+    data: number;
+  }
+
+  interface ErrorEvent {
+    target: Player;
+    data: number;
+  }
+
+  interface ApiChangeEvent {
+    target: Player;
+  }
+
+  enum PlayerState {
+    UNSTARTED = -1,
+    ENDED = 0,
+    PLAYING = 1,
+    PAUSED = 2,
+    BUFFERING = 3,
+    CUED = 5
+  }
+}
+
+// Define player action types
+type PlayerAction = 'play' | 'pause' | 'seek' | 'ready' | 'buffer' | 'end';
+
+// Define player state update interface
+interface PlayerStateUpdate {
+  action: PlayerAction;
+  timestamp: number;
+  videoTime: number;
+  userId: string;
+  roomId: string;
+}
+
 interface Message {
-  id: string
-  sender: string
-  text: string
-  timestamp: number
+  id: string;
+  sender: string;
+  text: string;
+  timestamp: number;
 }
 
 interface RoomInfo {
-  id: string
-  youtubeUrl?: string
-  isHost: boolean
+  id: string;
+  youtubeUrl?: string;
+  isHost: boolean;
 }
 
 export default function RoomPage() {
   const { id } = useParams<{ id: string }>()
   const [roomInfo, setRoomInfo] = useState<RoomInfo | null>(null)
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<{ id: string; username?: string; email: string }>()
   const [messages, setMessages] = useState<Message[]>([])
   const [newMessage, setNewMessage] = useState("")
   const [displayName, setDisplayName] = useState("")
   const [isPlaying, setIsPlaying] = useState(false)
   const [showChat, setShowChat] = useState(false)
+  const [currentVideoTime, setCurrentVideoTime] = useState(0)
   const navigate = useNavigate()
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const playerRef = useRef<YT.Player | null>(null)
   const isDesktop = useMediaQuery("(min-width: 768px)")
+  const playerContainerRef = useRef<HTMLDivElement>(null)
 
   // YouTube video ID extraction function
   const getYouTubeVideoId = (url: string) => {
@@ -937,6 +1058,8 @@ export default function RoomPage() {
     const match = url?.match(regExp)
     return match && match[2].length === 11 ? match[2] : null
   }
+
+  console.log(isPlaying);
 
   useEffect(() => {
     // Check if user is authenticated
@@ -981,101 +1104,297 @@ export default function RoomPage() {
     }
   }, [id, navigate])
 
+  // Send player update to backend
+  const sendPlayerUpdate = async (update: PlayerStateUpdate) => {
+    try {
+      console.log('🔵 PLAYER UPDATE:', {
+        action: update.action,
+        videoTime: update.videoTime.toFixed(2),
+        timestamp: new Date(update.timestamp).toLocaleTimeString(),
+        userId: update.userId,
+        roomId: update.roomId
+      });
+      
+      // In a real implementation, you would send this to your backend
+      // Example using fetch:
+      /*
+      console.log('Sending API request to backend...');
+      const response = await fetch('/api/player-update', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(update),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to send player update');
+      }
+      console.log('API response received:', response.status);
+      */
+      
+      // For now, just add a system message to demonstrate
+      if (update.action !== 'buffer') {
+        const actionText: Record<PlayerAction, string> = {
+          play: 'started playing',
+          pause: 'paused',
+          seek: `jumped to ${Math.floor(update.videoTime / 60)}:${Math.floor(update.videoTime % 60).toString().padStart(2, '0')}`,
+          end: 'finished the video',
+          ready: 'loaded the video',
+          buffer: 'buffering video'
+        };
+        
+        const message: Message = {
+          id: Date.now().toString(),
+          sender: 'System',
+          text: `${displayName} ${actionText[update.action]}`,
+          timestamp: Date.now(),
+        };
+        
+        console.log(`Adding system message for action: ${update.action}`);
+        setMessages(prev => [...prev, message]);
+      }
+    } catch (error) {
+      console.error('❌ Error sending player update:', error);
+    }
+  };
+
+  // Initialize YouTube player
+  const initializePlayer = () => {
+    if (!roomInfo?.youtubeUrl || !playerContainerRef.current) {
+      console.log("Cannot initialize player: missing URL or container");
+      return;
+    }
+    
+    const videoId = getYouTubeVideoId(roomInfo.youtubeUrl);
+    if (!videoId) {
+      console.log("Cannot initialize player: invalid YouTube URL");
+      return;
+    }
+
+    console.log(`Initializing YouTube player with video ID: ${videoId}`);
+    
+    playerRef.current = new window.YT.Player(playerContainerRef.current, {
+      videoId: videoId,
+      playerVars: {
+        // Only show controls if user is host
+        controls: roomInfo.isHost ? 1 : 0,
+        // Disable keyboard shortcuts for guests to prevent space bar play/pause
+        disablekb: roomInfo.isHost ? 0 : 1,
+        // Prevent users from clicking directly on video to play/pause if not host
+        playsinline: 1,
+        modestbranding: 1,
+        rel: 0,
+      },
+      events: {
+        onReady: onPlayerReady,
+        onStateChange: onPlayerStateChange,
+        onError: (errorEvent) => {
+          console.error("YouTube player error:", errorEvent.data);
+        }
+      }
+    });
+  };
+
+  // Player event handlers
+  const onPlayerReady = (event: YT.PlayerEvent) => {
+    console.log("Player ready event fired", event.target);
+    
+    if (!user || !roomInfo) return;
+    
+    // Send player ready event to backend
+    const playerUpdate: PlayerStateUpdate = {
+      action: 'ready',
+      timestamp: Date.now(),
+      videoTime: 0,
+      userId: user.id,
+      roomId: roomInfo.id || '',
+    };
+    sendPlayerUpdate(playerUpdate);
+  };
+
+  const onPlayerStateChange = (event: YT.OnStateChangeEvent) => {
+    // YT.PlayerState: -1 (unstarted), 0 (ended), 1 (playing), 2 (paused), 3 (buffering)
+    if (!user || !roomInfo) return;
+    
+    const player = event.target;
+    const videoTime = player.getCurrentTime();
+    
+    // Map YT.PlayerState to string for logging
+    const stateMap: Record<number, string> = {
+      [-1]: "UNSTARTED",
+      [0]: "ENDED",
+      [1]: "PLAYING",
+      [2]: "PAUSED",
+      [3]: "BUFFERING",
+      [5]: "CUED",
+    };
+    
+    console.log(`Player state changed to: ${stateMap[event.data] || event.data} at time: ${videoTime.toFixed(2)}`);
+    
+    let action: PlayerAction | null = null;
+    
+    // If user is not host, they shouldn't be able to control the video
+    // This is a safety check in case they somehow bypass the UI restrictions
+    if (!roomInfo.isHost) {
+      // Update current time but don't process any actions
+      setCurrentVideoTime(videoTime);
+      return;
+    }
+    
+    // Check for seeking (significant time jump while buffering or transitioning)
+    // This happens when the user drags the progress bar
+    if (Math.abs(videoTime - currentVideoTime) > 2) {
+      console.log(`Seek detected: ${currentVideoTime.toFixed(2)} -> ${videoTime.toFixed(2)}`);
+      
+      const seekUpdate: PlayerStateUpdate = {
+        action: 'seek',
+        timestamp: Date.now(),
+        videoTime: videoTime,
+        userId: user.id,
+        roomId: roomInfo.id || '',
+      };
+      
+      sendPlayerUpdate(seekUpdate);
+    }
+    
+    switch(event.data) {
+      case YT.PlayerState.PLAYING:
+        action = 'play';
+        setIsPlaying(true);
+        break;
+      case YT.PlayerState.PAUSED:
+        action = 'pause';
+        setIsPlaying(false);
+        break;
+      case YT.PlayerState.BUFFERING:
+        action = 'buffer';
+        break;
+      case YT.PlayerState.ENDED:
+        action = 'end';
+        setIsPlaying(false);
+        break;
+      default:
+        console.log(`No action defined for player state: ${event.data}`);
+        break;
+    }
+    
+    // Update current video time after processing events
+    setCurrentVideoTime(videoTime);
+    
+    if (action && roomInfo.isHost) {
+      console.log(`Processing player action: ${action}`);
+      
+      const playerUpdate: PlayerStateUpdate = {
+        action,
+        timestamp: Date.now(),
+        videoTime,
+        userId: user.id,
+        roomId: roomInfo.id || '',
+      };
+      sendPlayerUpdate(playerUpdate);
+    }
+  };
+
+  // We now handle seeking detection directly in the onPlayerStateChange event
+  // and through direct player events rather than polling
+
   useEffect(() => {
     // Scroll to bottom of messages
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages, showChat])
 
   const handleSendMessage = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!newMessage.trim()) return
+    e.preventDefault();
+    if (!newMessage.trim()) return;
 
+    console.log(`Sending chat message: ${newMessage}`);
+    
     const message: Message = {
       id: Date.now().toString(),
       sender: displayName,
       text: newMessage,
       timestamp: Date.now(),
-    }
+    };
 
-    setMessages([...messages, message])
-    setNewMessage("")
-  }
+    setMessages([...messages, message]);
+    setNewMessage("");
+  };
 
   const handleUpdateDisplayName = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!displayName.trim()) return
+    e.preventDefault();
+    if (!displayName.trim()) return;
 
+    console.log(`Updating display name: ${displayName}`);
+    
     // Add system message about name change
     const message: Message = {
       id: Date.now().toString(),
       sender: "System",
-      text: `${user.username || user.email.split("@")[0]} changed their name to ${displayName}`,
+      text: `${user?.username || user?.email?.split("@")[0] || 'User'} changed their name to ${displayName}`,
       timestamp: Date.now(),
-    }
+    };
 
-    setMessages([...messages, message])
-  }
-
-  const handlePlayPause = () => {
-    setIsPlaying(!isPlaying)
-    // In a real app, you would sync this with other users
-  }
-
-  const handleSkipForward = () => {
-    // In a real app, you would implement seeking and sync with other users
-    console.log("Skip forward")
-  }
+    setMessages([...messages, message]);
+  };
 
   const handleLeaveRoom = () => {
-    localStorage.removeItem("currentRoom")
-    navigate("/dashboard")
-  }
+    console.log("Leaving room");
+    localStorage.removeItem("currentRoom");
+    navigate("/dashboard");
+  };
+
+  // Load YouTube API in useEffect hook
+  useEffect(() => {
+    if (!window.YT) {
+      console.log("Loading YouTube API...");
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      if (firstScriptTag && firstScriptTag.parentNode) {
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      }
+    } else {
+      console.log("YouTube API already loaded");
+      initializePlayer();
+    }
+
+    // Initialize player when API is ready
+    window.onYouTubeIframeAPIReady = () => {
+      console.log("YouTube API ready, initializing player...");
+      initializePlayer();
+    };
+
+    // Cleanup function
+    return () => {
+      if (playerRef.current) {
+        playerRef.current.destroy();
+      }
+      window.onYouTubeIframeAPIReady = () => {};
+    };
+  }, [roomInfo?.youtubeUrl]);
 
   if (!user || !roomInfo) {
     return <div className="flex min-h-screen items-center justify-center bg-black">Loading...</div>
   }
 
-  const videoId = roomInfo.youtubeUrl ? getYouTubeVideoId(roomInfo.youtubeUrl) : null
 
-  const renderVideoPlayer = () => (
-    <div className="relative w-full h-full bg-zinc-800 flex items-center justify-center">
-      {videoId ? (
-        <iframe
-          src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1`}
-          title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          className="w-full h-full"
-        ></iframe>
-      ) : (
-        <div className="text-center p-4">
-          <p className="text-xl font-bold">VIDEO</p>
-          <p className="text-sm text-zinc-400 mt-2">Waiting for host to start a video...</p>
-        </div>
-      )}
-
-      {roomInfo.isHost && (
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 bg-black/70 p-2 rounded-full">
-          <Button
-            size="icon"
-            variant="ghost"
-            className="rounded-full text-white hover:bg-zinc-700"
-            onClick={handlePlayPause}
-          >
-            {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-          </Button>
-          <Button
-            size="icon"
-            variant="ghost"
-            className="rounded-full text-white hover:bg-zinc-700"
-            onClick={handleSkipForward}
-          >
-            <SkipForward size={20} />
-          </Button>
-        </div>
-      )}
-    </div>
-  )
+  const renderVideoPlayer = () => {
+    const videoId = roomInfo?.youtubeUrl ? getYouTubeVideoId(roomInfo.youtubeUrl) : null;
+    
+    return (
+      <div className="relative w-full h-full bg-zinc-800 flex items-center justify-center">
+        {videoId ? (
+          <div ref={playerContainerRef} className="w-full h-full"></div>
+        ) : (
+          <div className="text-center p-4">
+            <p className="text-xl font-bold">VIDEO</p>
+            <p className="text-sm text-zinc-400 mt-2">Waiting for host to start a video...</p>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   const renderChatPanel = () => (
     <div className="flex flex-col h-full bg-zinc-900">
@@ -1125,12 +1444,16 @@ export default function RoomPage() {
     </div>
   )
 
+  if (!user || !roomInfo) {
+    return <div className="flex min-h-screen items-center justify-center bg-black">Loading...</div>
+  }
+
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col">
+    <div className="min-h-screen min-w-screen bg-black text-white flex flex-col">
       <header className="p-3 border-b border-zinc-800 flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <h1 className="font-bold">Room: {roomInfo.id}</h1>
-          <span className="text-xs bg-zinc-800 px-2 py-1 rounded">{roomInfo.isHost ? "Host" : "Guest"}</span>
+          <h1 className="font-bold">Room: {roomInfo?.id}</h1>
+          <span className="text-xs bg-zinc-800 px-2 py-1 rounded">{roomInfo?.isHost ? "Host" : "Guest"}</span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -1145,7 +1468,7 @@ export default function RoomPage() {
             <Button
               type="submit"
               size="sm"
-              variant="outline"
+              variant="gray"
               className="h-8 border-zinc-700 text-white hover:bg-zinc-800"
             >
               <User size={14} className="mr-1" />
@@ -1174,7 +1497,7 @@ export default function RoomPage() {
         {isDesktop ? (
           <Button
             onClick={() => setShowChat(!showChat)}
-            className={showChat ? "bg-red-600 hover:bg-red-700" : "bg-zinc-800 hover:bg-zinc-700"}
+            className={showChat ? "bg-zinc-800 hover:bg-zinc-700" : "bg-red-600 hover:bg-red-700"}
           >
             <MessageSquare size={18} className="mr-2" />
             {showChat ? "Hide Chat" : "Show Chat"}
@@ -1230,7 +1553,7 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-black p-4">
+    <div className="flex min-h-screen min-w-screen items-center justify-center bg-black p-4">
       <Card className="w-full max-w-md bg-zinc-900 text-white border-zinc-800">
         <CardHeader>
           <CardTitle className="text-xl font-medium text-center">Sign Up</CardTitle>
@@ -1277,8 +1600,8 @@ export default function SignupPage() {
                 className="bg-zinc-800 border-zinc-700 text-white"
               />
             </div>
-            <Button type="submit" className="w-full bg-red-600 hover:bg-red-700" disabled={isLoading}>
-              {isLoading ? "Signing up..." : "Sign up"}
+            <Button type="submit" variant="red" className="w-full" disabled={isLoading}>
+                {isLoading ? "Signing up..." : "Sign up"}
             </Button>
             <div className="text-center text-sm text-zinc-400">
               Already have an account?{" "}
@@ -1296,9 +1619,10 @@ export default function SignupPage() {
 
 <file path="src/App.css">
 #root {
-  min-width: 1440px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
   text-align: center;
 }
 
@@ -1430,21 +1754,22 @@ export default App
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-a {
+/* a {
   font-weight: 500;
-  color: #646cff;
+  color: #ffffff;
   text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+} */
+
+/* a:hover {
+  color: #ffffff;
+} */
 
 body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
 }
 
 h1 {
@@ -1452,7 +1777,7 @@ h1 {
   line-height: 1.1;
 }
 
-button {
+/* button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -1462,10 +1787,8 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
+} */
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -1473,14 +1796,18 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
+    /* color: #213547; */
     background-color: #ffffff;
   }
   a:hover {
-    color: #747bff;
+    /* color: #ffffff; */
   }
   button {
-    background-color: #f9f9f9;
+    /* background-color: #dc2626; */
+    /* background-color: #f9f9f9; */
+  }
+  button:hover {
+    /* background-color: #b91c1c; */
   }
 }
 
