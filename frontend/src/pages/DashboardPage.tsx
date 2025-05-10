@@ -138,7 +138,7 @@ export default function DashboardPage() {
           <CardContent className="p-6">
             <div className="flex flex-col items-center justify-center gap-8">
               <div className="text-center space-y-2">
-                <h2 className="text-2xl text-zinc-100 font-bold">Welcome, {user?.username ? user.username : user?.email || "Guest"}</h2>
+                <h2 className="text-2xl text-zinc-100 font-bold">Welcome, {userData.username || "TEST"}</h2>
                 <p className="text-zinc-400">Create a new watch party or join an existing one</p>
               </div>
 
