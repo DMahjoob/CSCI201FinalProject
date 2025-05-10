@@ -596,7 +596,7 @@ export default function RoomPage() {
     setNewMessage("");
   };
 
-  const handleUpdateDisplayName = (e: React.FormEvent) => {
+  const handleUpdateDisplayName = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!displayName.trim()) {
       alert("Display name cannot be empty.");
@@ -638,7 +638,7 @@ export default function RoomPage() {
     };
 
     setMessages([...messages, message]);
-};
+  };
 
 
   const handleLeaveRoom = () => {
