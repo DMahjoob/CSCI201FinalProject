@@ -88,15 +88,8 @@ export default function DashboardPage() {
     
     try {
       // Join a room via the backend API
-      const response = await fetch('http://localhost:8080/CS201FP/JoinRoomServlet', {
+      const response = await fetch(`http://localhost:8080/CS201FP/JoinRoomServlet?roomCode=${roomId}&email=${userData.email}`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-          'user_id': userData.id,
-          'roomCode': roomId
-        })
       });
       
       if (!response.ok) {
