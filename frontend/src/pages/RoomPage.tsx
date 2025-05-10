@@ -148,11 +148,10 @@ export default function RoomPage() {
   const navigate = useNavigate()
   const isDesktop = useMediaQuery("(min-width: 768px)")
   
-  // All refs need to be declared together to maintain consistent hook order
+  // Only keep necessary refs for the demo
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const playerRef = useRef<YT.Player | null>(null)
   const playerContainerRef = useRef<HTMLDivElement>(null)
-  const initialLoadRef = useRef<boolean>(true)
   const wsRef = useRef<WebSocket | null>(null)
 
   // YouTube video ID extraction function
@@ -186,7 +185,7 @@ export default function RoomPage() {
     // Fetch room info from the backend database
     const fetchRoomInfo = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/CS201FP/JoinRoomServlet?roomCode=${id}&user_id=${userData.id}`, {
+        const response = await fetch(`http://localhost:8080/CS201FP/JoinRoomServlet?roomCode=${id}&email=${userData.email}`, {
           method: 'POST',
         });
         
@@ -210,6 +209,8 @@ export default function RoomPage() {
           youtubeUrl: data.youtubeUrl, // Server returns 'youtubeUrl'
           isHost: data.isHost // Server returns 'isHost' boolean
         };
+
+        console.log("Room info fetched:", roomInfo);
         
         setRoomInfo(roomInfo);
         
@@ -605,6 +606,8 @@ export default function RoomPage() {
 
   // Load YouTube API in useEffect hook
   useEffect(() => {
+    if (!roomInfo?.youtubeUrl) return;
+    
     if (!window.YT) {
       console.log("Loading YouTube API...");
       const tag = document.createElement('script');
@@ -613,16 +616,16 @@ export default function RoomPage() {
       if (firstScriptTag && firstScriptTag.parentNode) {
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
       }
+      
+      // Initialize player when API is ready
+      window.onYouTubeIframeAPIReady = () => {
+        console.log("YouTube API ready, initializing player...");
+        initializePlayer();
+      };
     } else {
       console.log("YouTube API already loaded");
       initializePlayer();
     }
-
-    // Initialize player when API is ready
-    window.onYouTubeIframeAPIReady = () => {
-      console.log("YouTube API ready, initializing player...");
-      initializePlayer();
-    };
 
     // Cleanup function
     return () => {
@@ -641,40 +644,8 @@ export default function RoomPage() {
   // Video URL and other information is now fetched only on initial load
   // and updated through WebSocket messages instead of polling
   
-  // When a host changes the video URL, send it to the server
-  useEffect(() => {
-    if (!roomInfo?.isHost || !roomInfo.youtubeUrl || !user?.id || !id) return;
-    
-    // Avoid running on initial load
-    const updateVideoUrl = async () => {
-      try {
-        // 1. Notify other users about the video change via WebSocket
-        if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-          console.log(`Host sending video URL update: ${roomInfo.youtubeUrl}`);
-          
-          const updateMessage = {
-            type: 'video_update',
-            videoUrl: roomInfo.youtubeUrl,
-            userId: user.id,
-            roomId: id
-          };
-          wsRef.current.send(JSON.stringify(updateMessage));
-        }
-        
-        // 2. Update the video link in the database (could be done via separate servlet)
-        // For now we'll just rely on the WebSocket to relay the updates to guests
-      } catch (error) {
-        console.error("Failed to update video URL:", error);
-      }
-    };
-    
-    // We use a ref to track if this is the initial load
-    if (initialLoadRef.current) {
-      initialLoadRef.current = false;
-    } else {
-      updateVideoUrl();
-    }
-  }, [roomInfo?.youtubeUrl]);
+  // For the demo, we're simplifying and not using this functionality
+  // The host will set the URL when creating the room, and it won't change during the session
   
 
   
