@@ -610,7 +610,7 @@ export default function RoomPage() {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: new URLSearchParams({
-          email: user?.email,
+          email: user?.email || "",
           newUsername: displayName,
         }),
       });
