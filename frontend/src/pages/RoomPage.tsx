@@ -619,9 +619,8 @@ export default function RoomPage() {
       if (response.ok) {
         console.log(`Updating display name: ${displayName}`);
         // Update local user data
-        alert(displayName);
         setUser((prev) => prev ? { ...prev, username: displayName } : prev);
-        setDisplayName(""); // Clear input
+        setDisplayName(displayName); // Clear input
       } else {
         alert(result.error || "Failed to update display name.");
       }
