@@ -11,9 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/ChangeUsernameServlet")
 public class ChangeUsernameServlet extends HttpServlet {
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/BingeBaddies";
-    private static final String JDBC_USER = "root";
-    private static final String JDBC_PASSWORD = "Rayquaza10!";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -21,19 +18,20 @@ public class ChangeUsernameServlet extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
-        String userId = request.getParameter("userId");
+        String email = request.getParameter("email");
         String newUsername = request.getParameter("newUsername");
-
-        if (userId == null || newUsername == null || newUsername.trim().isEmpty()) {
+        System.out.println("email: " + email);
+        System.out.println("newUsername: " + newUsername);
+        if (email == null || newUsername == null || email.trim().isEmpty() || newUsername.trim().isEmpty()) {
             out.print("{\"status\":\"error\",\"message\":\"Invalid input\"}");
             return;
         }
 
-        try (Connection conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement("UPDATE Users SET username = ? WHERE user_id = ?")) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/BingeBaddies?user=root&password=Rayquaza10!");
+             PreparedStatement stmt = conn.prepareStatement("UPDATE Users SET username = ? WHERE email = ?")) {
 
             stmt.setString(1, newUsername);
-            stmt.setString(2, userId);
+            stmt.setString(2, email);
             int updated = stmt.executeUpdate();
 
             if (updated > 0) {
