@@ -267,7 +267,7 @@ export default function RoomPage() {
         // Handle chat message
         const newMessage: Message = {
           id: data.id || Date.now().toString(),
-          sender: data.sender || user.,
+          sender: data.sender || userData.username,
           text: data.text,
           timestamp: data.timestamp || Date.now()
         };
