@@ -200,7 +200,7 @@ export default function RoomPage() {
     
     // Fetch room info from the backend database
     const fetchRoomInfo = async (e: React.FormEvent) => {
-      event.preventDefault();
+      e.preventDefault();
       try {
         const response = await fetch(`http://localhost:8080/CS201FP/JoinRoomServlet?roomCode=${id}&email=${userData.email}`, {
           method: 'POST',
