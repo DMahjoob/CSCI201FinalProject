@@ -693,7 +693,7 @@ export default function RoomPage() {
       alert("Display name cannot be empty.");
       return;
     }
-    
+    alert("TEST");
     try {
       const response = await fetch("http://localhost:8080/CS201FP/ChangeUsernameServlet", {
         method: "POST",
