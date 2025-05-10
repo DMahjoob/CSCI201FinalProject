@@ -138,7 +138,7 @@ interface RoomInfo {
 export default function RoomPage() {
   const { id } = useParams<{ id: string }>()
   const [roomInfo, setRoomInfo] = useState<RoomInfo | null>(null)
-  const [user, setUser] = useState<{ id: string; username?: string; email: string }>()
+  const [user, setUser] = useState<{ id: string; username?: string; email: string; isGuest?: boolean }>()
   const [messages, setMessages] = useState<Message[]>([])
   const [newMessage, setNewMessage] = useState("")
   const [displayName, setDisplayName] = useState("")
@@ -166,21 +166,38 @@ export default function RoomPage() {
   // We need to use a consistent hook ordering - WebSocket reference is declared above with other refs
 
   useEffect(() => {
-    // Check if user is authenticated
-    const storedUser = localStorage.getItem("user")
-    if (!storedUser) {
-      navigate("/login")
-      return
-    }
-
-    const userData = JSON.parse(storedUser)
-    setUser(userData)
-    setDisplayName(userData.username || userData.email?.split("@")[0] || `Guest ${userData.id.split('_')[1] || ''}`)
-    
+    // Check if we have a room ID
     if (!id) {
-      navigate("/dashboard")
+      navigate("/")
       return
     }
+    
+    // Check if user is authenticated or create a guest user
+    const storedUser = localStorage.getItem("user")
+    let userData;
+    
+    if (storedUser) {
+      // Use authenticated user data
+      userData = JSON.parse(storedUser)
+      setUser(userData)
+      setDisplayName(userData.username || userData.email?.split("@")[0] || `Guest ${userData.id.split('_')[1] || ''}`)
+    } else {
+      // Create guest user - using the format expected by the backend (guest_ prefix)
+      const guestId = `guest_${Math.floor(Math.random() * 10000)}`
+      userData = {
+        id: guestId,
+        email: guestId, // Backend expects email parameter to start with guest_
+        username: `Guest ${guestId.split('_')[1]}`,
+        isGuest: true
+      }
+      setUser(userData)
+      setDisplayName(`Guest ${guestId.split('_')[1]}`)
+      
+      // Store guest user in localStorage for the session
+      localStorage.setItem("user", JSON.stringify(userData))
+    }
+    
+    // Now continue with fetching room info for the user (authenticated or guest)
     
     // Fetch room info from the backend database
     const fetchRoomInfo = async () => {
@@ -275,11 +292,9 @@ export default function RoomPage() {
           };
           setMessages(prev => [...prev, newMessage]);
         }
-      } else if (data.type === 'control' || data.startsWith('control:')) {
+      } else if (data.type === 'control') {
         // Handle video control actions
-        const controlData = data.startsWith('control:') 
-          ? JSON.parse(data.substring(8)) 
-          : data;
+        const controlData = data;
         
         if (playerRef.current && !roomInfo?.isHost) {
           console.log('Received control message:', controlData);
