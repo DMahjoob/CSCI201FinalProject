@@ -10,3 +10,9 @@ Virtual Watch Party Webapp
 5/2
 - Uploaded Login, Signup, Room, & Message Servlets for user validation with the database.
 - Updated RoomCreation information. Submitted Complete Documentation
+
+5/9
+- Updated stylesheets
+- Launched on Vercel
+- Fixed backend to frontend connection
+- Created presentation slides
