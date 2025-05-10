@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { MessageSquare, X, User } from "lucide-react"
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
+import { Drawer, DrawerContent } from "@/components/ui/drawer"
 import { useMediaQuery } from "@/hooks/use-media-query"
 
 // Declare YouTube IFrame API types
@@ -143,6 +143,7 @@ export default function RoomPage() {
   const [newMessage, setNewMessage] = useState("")
   const [displayName, setDisplayName] = useState("")
   const [isPlaying, setIsPlaying] = useState(false)
+  console.log("isPlaying: ", isPlaying);
   const [showChat, setShowChat] = useState(false)
   const [currentVideoTime, setCurrentVideoTime] = useState(0)
   const navigate = useNavigate()
