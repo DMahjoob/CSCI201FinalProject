@@ -10,3 +10,13 @@ Virtual Watch Party Webapp
 5/2
 - Uploaded Login, Signup, Room, & Message Servlets for user validation with the database.
 - Updated RoomCreation information. Submitted Complete Documentation
+
+5/9
+- Deployed on Vercel
+- Did extensive regression testing and ensured features were viable
+- Host vs User vs Guest functionality improved
+
+5/10 
+- Finished all code and testing!
+- Finished recording presentaiton and demo!
+- Zipped all code and submitted.
