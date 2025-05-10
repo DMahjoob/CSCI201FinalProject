@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -21,20 +20,20 @@ public class MessageServlet extends HttpServlet {
 
         String messageText = request.getParameter("message_text");
         String roomId = request.getParameter("room_id");
-        String userId = request.getParameter("user_id");
+        String email = request.getParameter("email");
 
-        if (messageText == null || roomId == null || userId == null) {
+        if (messageText == null || roomId == null || email == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             out.write("{\"error\":\"Missing required parameters\"}");
             return;
         }
 
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/BingeBaddies?user=root&password=Rayquaza10!")) {
-            String query = "INSERT INTO Messages (message_text, room_id, user_id) VALUES (?, ?, ?);";
+            String query = "INSERT INTO Messages (message_text, room_id, email) VALUES (?, ?, ?);";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, messageText);
             stmt.setString(2, roomId);
-            stmt.setString(3, userId);
+            stmt.setString(3, email);
 
             int rowsAffected = stmt.executeUpdate();
 
