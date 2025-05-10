@@ -88,15 +88,8 @@ export default function DashboardPage() {
     
     try {
       // Join a room via the backend API
-      const response = await fetch('http://localhost:8080/CS201FP/JoinRoomServlet', {
+      const response = await fetch(`http://localhost:8080/CS201FP/JoinRoomServlet?roomCode=${roomId}&email=${userData.email}`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-          'user_id': userData.id,
-          'roomCode': roomId
-        })
       });
       
       if (!response.ok) {
@@ -145,7 +138,7 @@ export default function DashboardPage() {
           <CardContent className="p-6">
             <div className="flex flex-col items-center justify-center gap-8">
               <div className="text-center space-y-2">
-                <h2 className="text-2xl text-zinc-100 font-bold">Welcome, {user.username || user.email}</h2>
+                <h2 className="text-2xl text-zinc-100 font-bold">Welcome, {user.username}</h2>
                 <p className="text-zinc-400">Create a new watch party or join an existing one</p>
               </div>
 
