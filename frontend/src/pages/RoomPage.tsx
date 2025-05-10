@@ -598,9 +598,36 @@ export default function RoomPage() {
 
   const handleUpdateDisplayName = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!displayName.trim()) return;
+    if (!displayName.trim()) {
+      alert("Display name cannot be empty.");
+      return;
+    }
+    
+    try {
+      const response = await fetch("http://localhost:8080/CS201FP/ChangeUsernameServlet", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          userId: user?.id || "",  // Ensure user ID is available
+          newUsername: displayName,
+        }),
+      });
 
-    console.log(`Updating display name: ${displayName}`);
+      const result = await response.json();
+      if (response.ok) {
+        console.log(`Updating display name: ${displayName}`);
+        // Update local user data
+        setUser((prev) => prev ? { ...prev, username: displayName } : null);
+        setDisplayName(""); // Clear input
+      } else {
+        alert(result.error || "Failed to update display name.");
+      }
+    } catch (error) {
+      console.error("Error updating display name:", error);
+      alert("Error updating display name. Please try again.");
+    }
     
     // Add system message about name change
     const message: Message = {
@@ -611,7 +638,8 @@ export default function RoomPage() {
     };
 
     setMessages([...messages, message]);
-  };
+};
+
 
   const handleLeaveRoom = () => {
     console.log("Leaving room");
