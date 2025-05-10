@@ -19,11 +19,9 @@ public class LoginServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-
 	    response.setContentType("application/json");
 	    PrintWriter out = response.getWriter();
 	    Gson gson = new Gson();
-
 	    // Parse JSON from frontend
 	    BufferedReader br = request.getReader();
 	    Map<String, String> data = gson.fromJson(br, Map.class);
@@ -38,7 +36,7 @@ public class LoginServlet extends HttpServlet {
 		try {
 			// Create connection
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/BingeBaddies?user=root&password=Rayquaza10!");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/BingeBaddies?user=root&password=Shubhayan935");
 	
 	
 			stmt = conn.prepareStatement("SELECT * FROM Users WHERE email = ? AND password = ?");
@@ -51,6 +49,11 @@ public class LoginServlet extends HttpServlet {
 				Map<String, String> success = new HashMap<>();
 		        success.put("status", "success");
 		        success.put("message", "Login successful");
+		        
+		        // Add user information to the response
+		        success.put("userId", rs.getString("user_id"));
+		        success.put("username", rs.getString("username"));
+		        
 		        out.print(gson.toJson(success));
 			} 
 			// Invalid email or password?
@@ -83,6 +86,14 @@ public class LoginServlet extends HttpServlet {
 	        error.put("status", "error");
 	        error.put("message", "Server error: " + e.getMessage());
 	        out.print(gson.toJson(error));
+		} finally {
+			try {
+				if (rs != null) rs.close();
+				if (stmt != null) stmt.close();
+				if (conn != null) conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		out.flush();
 	}
