@@ -20,12 +20,14 @@ public class ChangeUsernameServlet extends HttpServlet {
 
         String email = request.getParameter("email");
         String newUsername = request.getParameter("newUsername");
+        System.out.println("email: " + email);
+        System.out.println("newUsername: " + newUsername);
         if (email == null || newUsername == null || email.trim().isEmpty() || newUsername.trim().isEmpty()) {
             out.print("{\"status\":\"error\",\"message\":\"Invalid input\"}");
             return;
         }
 
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/BingeBaddies?user=root&password=Rayquaza10!");
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/BingeBaddies?user=root&password=Shubhayan935");
              PreparedStatement stmt = conn.prepareStatement("UPDATE Users SET username = ? WHERE email = ?")) {
 
             stmt.setString(1, newUsername);
