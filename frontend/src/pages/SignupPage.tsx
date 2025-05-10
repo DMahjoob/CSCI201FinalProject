@@ -24,7 +24,6 @@ export default function SignupPage() {
     setIsLoading(true)
     setError("")
 
-    // Check if passwords match
     if (password !== confirmPassword) {
       setError("Passwords do not match")
       setIsLoading(false)
@@ -38,7 +37,7 @@ export default function SignupPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          fullName: fullName || username, // Using username as fullName if not provided
+          fullName: fullName || username,
           username,
           email,
           password
@@ -48,9 +47,8 @@ export default function SignupPage() {
       const data = await response.json()
 
       if (data.status === 'success') {
-        // Store user info in localStorage
         localStorage.setItem("user", JSON.stringify({
-          id: data.userId || Math.floor(Math.random() * 10000), // Fallback if userId not provided
+          id: data.userId || Math.floor(Math.random() * 10000),
           email,
           username,
           isAuthenticated: true,

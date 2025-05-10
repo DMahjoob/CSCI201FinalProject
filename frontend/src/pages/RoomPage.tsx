@@ -10,7 +10,6 @@ import { MessageSquare, X, User } from "lucide-react"
 import { Drawer, DrawerContent } from "@/components/ui/drawer"
 import { useMediaQuery } from "@/hooks/use-media-query"
 
-// Declare YouTube IFrame API types
 declare global {
   interface Window {
     YT: typeof YT;
@@ -110,10 +109,8 @@ declare namespace YT {
   }
 }
 
-// Define player action types
 type PlayerAction = 'play' | 'pause' | 'seek' | 'ready' | 'buffer' | 'end';
 
-// Define player state update interface
 interface PlayerStateUpdate {
   action: PlayerAction;
   timestamp: number;
@@ -149,15 +146,13 @@ export default function RoomPage() {
   const navigate = useNavigate()
   const isDesktop = useMediaQuery("(min-width: 768px)")
   
-  // All refs needed
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const playerRef = useRef<YT.Player | null>(null)
   const playerContainerRef = useRef<HTMLDivElement>(null)
   const wsRef = useRef<WebSocket | null>(null)
-  const videoWsRef = useRef<WebSocket | null>(null) // New ref for video sync WebSocket
+  const videoWsRef = useRef<WebSocket | null>(null)
   const overlayRef = useRef<HTMLDivElement | null>(null)
 
-  // YouTube video ID extraction function
   const getYouTubeVideoId = (url: string) => {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
     const match = url?.match(regExp)
@@ -165,41 +160,34 @@ export default function RoomPage() {
   }
 
   useEffect(() => {
-    // Check if we have a room ID
     if (!id) {
       navigate("/")
       return
     }
     
-    // Check if user is authenticated or create a guest user
     const storedUser = localStorage.getItem("user")
     let userData;
     
     if (storedUser) {
-      // Use authenticated user data
       userData = JSON.parse(storedUser)
       setUser(userData)
       setDisplayName(userData.username || userData.email?.split("@")[0] || `Guest ${userData.id.split('_')[1] || ''}`)
     } else {
-      // Create guest user - using the format expected by the backend (guest_ prefix)
       const guestId = `guest_${Math.floor(Math.random() * 10000)}`
       userData = {
         id: guestId,
-        email: guestId, // Backend expects email parameter to start with guest_
+        email: guestId,
         username: `Guest ${guestId.split('_')[1]}`,
         isGuest: true
       }
       setUser(userData)
       setDisplayName(`Guest ${guestId.split('_')[1]}`)
       
-      // Store guest user in localStorage for the session
       localStorage.setItem("user", JSON.stringify(userData))
     }
     
-    // Now continue with fetching room info for the user (authenticated or guest)
     
-    // Fetch room info from the backend database
-    const fetchRoomInfo = async () => {
+        const fetchRoomInfo = async () => {
       try {
         const response = await fetch(`http://localhost:8080/CS201FP/JoinRoomServlet?roomCode=${id}&email=${userData.email}`, {
           method: 'POST',
@@ -219,28 +207,24 @@ export default function RoomPage() {
           return;
         }
         
-        // Server already returns whether the user is the host
         const roomInfo: RoomInfo = {
-          id: data.id, // Server returns 'id' as the room code
-          youtubeUrl: data.youtubeUrl, // Server returns 'youtubeUrl'
-          isHost: data.isHost // Server returns 'isHost' boolean
+          id: data.id,
+          youtubeUrl: data.youtubeUrl,
+          isHost: data.isHost
         };
         
         console.log("Room info fetched:", roomInfo);
         
         setRoomInfo(roomInfo);
         
-        // Store updated room info in localStorage
         localStorage.setItem("currentRoom", JSON.stringify(roomInfo));
         
-        // 1. Set up the chat WebSocket
         const chatWs = new WebSocket(`ws://localhost:8080/CS201FP/chat/${id}`);
         
         chatWs.onopen = () => {
           console.log('Chat WebSocket connected to room:', id);
           wsRef.current = chatWs;
 
-          // Send a join message when connecting
           const joinMessage = {
             type: 'chat',
             sender: displayName || userData.username || 'User',
@@ -257,12 +241,10 @@ export default function RoomPage() {
           console.log('Chat WebSocket message received:', data);
 
           if (data.type === 'chat_history') {
-            // Handle chat history when first joining the room
             try {
               const historyMessages = JSON.parse(data.messages);
               console.log('Received chat history:', historyMessages.length, 'messages');
               
-              // Convert history messages to our Message format and add them to state
               const formattedMessages = historyMessages.map((msg: any) => ({
                 id: msg.id.toString(),
                 sender: msg.sender,
@@ -275,7 +257,6 @@ export default function RoomPage() {
               console.error('Error processing chat history:', error);
             }
           } else if (data.type === 'chat') {
-            // Handle regular chat message
             const newMessage: Message = {
               id: (data.dbMessageId || data.id || Date.now()).toString(),
               sender: data.sender || userData.username,
@@ -285,27 +266,22 @@ export default function RoomPage() {
 
             console.log(data);
             
-            // Check if this message is already in our messages array (prevents duplicates)
             setMessages(prev => {
-              // Only add the message if it doesn't already exist in the array
               const messageExists = prev.some(msg => msg.id === newMessage.id);
               if (messageExists) {
-                return prev; // Don't add duplicate message
+                return prev;
               }
               return [...prev, newMessage];
             });
           } else if (data.type === 'video_update') {
-            // Handle video URL updates from host
             if (!roomInfo?.isHost && data.videoUrl) {
               console.log(`Received video update via WebSocket: ${data.videoUrl}`);
               
-              // Update room info with new video URL
               setRoomInfo(prev => ({
                 ...prev!,
                 youtubeUrl: data.videoUrl
               }));
               
-              // Add system message about video change
               const newMessage: Message = {
                 id: Date.now().toString(),
                 sender: 'System',
@@ -325,7 +301,6 @@ export default function RoomPage() {
           console.log('Chat WebSocket connection closed');
         };
         
-        // 2. Set up the video sync WebSocket
         const videoWs = new WebSocket(`ws://localhost:8080/CS201FP/room/${id}`);
         
         videoWs.onopen = () => {
@@ -336,11 +311,9 @@ export default function RoomPage() {
         videoWs.onmessage = (event) => {
           console.log('Video sync message received:', event.data);
           
-          // Parse the message format: action:time
           const [action, videoTimeStr] = event.data.split(':');
           const videoTime = parseFloat(videoTimeStr);
           
-          // Only non-hosts should respond to video control messages
           if (playerRef.current && !roomInfo?.isHost) {
             switch(action) {
               case 'play':
@@ -375,7 +348,6 @@ export default function RoomPage() {
           console.log('Video sync WebSocket connection closed');
         };
 
-        // Add initial system message
         setMessages([
           {
             id: "1",
@@ -385,9 +357,7 @@ export default function RoomPage() {
           },
         ]);
 
-        // Cleanup function for both WebSockets
         return () => {
-          // Send a leave message before disconnecting from chat
           if (chatWs.readyState === WebSocket.OPEN) {
             const leaveMessage = {
               type: 'chat',
@@ -401,7 +371,6 @@ export default function RoomPage() {
             chatWs.close();
           }
           
-          // Close video sync WebSocket
           if (videoWs.readyState === WebSocket.OPEN) {
             videoWs.close();
           }
@@ -412,11 +381,9 @@ export default function RoomPage() {
       }
     };
     
-    // Call fetchRoomInfo inside the useEffect
     fetchRoomInfo();
   }, [id, navigate]);
 
-  // Send player update to backend and other clients via WebSocket
   const sendPlayerUpdate = async (update: PlayerStateUpdate) => {
     try {
       console.log('🔵 PLAYER UPDATE:', {
@@ -427,14 +394,11 @@ export default function RoomPage() {
         roomId: update.roomId
       });
       
-      // Only hosts can send video control messages
       if (!roomInfo?.isHost) {
         console.log('Non-host user tried to control video - ignoring');
         return;
       }
       
-      // Send update via video sync WebSocket to all clients in the room
-      // using the format expected by the Java backend: action:videoTime
       if (videoWsRef.current && videoWsRef.current.readyState === WebSocket.OPEN) {
         const message = `${update.action}:${update.videoTime.toFixed(2)}`;
         videoWsRef.current.send(message);
@@ -443,7 +407,6 @@ export default function RoomPage() {
         console.error('Video sync WebSocket not connected, cannot send player update');
       }
       
-      // Add a system message to the chat for clarity
       if (update.action !== 'buffer') {
         const actionText: Record<PlayerAction, string> = {
           play: 'started playing',
@@ -469,7 +432,6 @@ export default function RoomPage() {
     }
   };
 
-  // Initialize YouTube player
   const initializePlayer = () => {
     if (!roomInfo?.youtubeUrl || !playerContainerRef.current) {
       console.log("Cannot initialize player: missing URL or container");
@@ -487,15 +449,11 @@ export default function RoomPage() {
     playerRef.current = new window.YT.Player(playerContainerRef.current, {
       videoId: videoId,
       playerVars: {
-        // Only show controls if user is host
         controls: roomInfo.isHost ? 1 : 0,
-        // Disable keyboard shortcuts for guests
         disablekb: roomInfo.isHost ? 0 : 1,
-        // Prevent users from clicking directly on video to play/pause if not host
         playsinline: 1,
         modestbranding: 1,
         rel: 0,
-        // Disable annotations for non-hosts to reduce clickable areas
         iv_load_policy: 3
       },
       events: {
@@ -507,13 +465,10 @@ export default function RoomPage() {
       }
     });
     
-    // If not host, add an overlay to prevent direct interaction with the video
     if (!roomInfo.isHost && playerContainerRef.current) {
-      // Wait for the player to be rendered in the DOM
       setTimeout(() => {
         const container = playerContainerRef.current?.parentElement;
         if (container) {
-          // Create an overlay to prevent direct interaction with the video
           const overlay = document.createElement('div');
           overlay.style.position = 'absolute';
           overlay.style.top = '0';
@@ -524,11 +479,9 @@ export default function RoomPage() {
           overlay.style.background = 'transparent';
           overlay.style.cursor = 'not-allowed';
           
-          // Prevent any click events from reaching the video
           overlay.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            // Show a message to the user explaining they can't control the video
             const message: Message = {
               id: Date.now().toString(),
               sender: 'System',
@@ -538,23 +491,19 @@ export default function RoomPage() {
             setMessages(prev => [...prev, message]);
           });
           
-          // Save ref to overlay for cleanup
           overlayRef.current = overlay;
           
-          // Add overlay to the container
           container.appendChild(overlay);
         }
-      }, 1000); // Give time for YouTube iframe to fully load
+      }, 1000);
     }
   };
 
-  // Player event handlers
   const onPlayerReady = (event: YT.PlayerEvent) => {
     console.log("Player ready event fired", event.target);
     
     if (!user || !roomInfo) return;
     
-    // Send player ready event to backend
     const playerUpdate: PlayerStateUpdate = {
       action: 'ready',
       timestamp: Date.now(),
@@ -566,13 +515,11 @@ export default function RoomPage() {
   };
 
   const onPlayerStateChange = (event: YT.OnStateChangeEvent) => {
-    // YT.PlayerState: -1 (unstarted), 0 (ended), 1 (playing), 2 (paused), 3 (buffering)
     if (!user || !roomInfo) return;
     
     const player = event.target;
     const videoTime = player.getCurrentTime();
     
-    // Map YT.PlayerState to string for logging
     const stateMap: Record<number, string> = {
       [-1]: "UNSTARTED",
       [0]: "ENDED",
@@ -584,17 +531,13 @@ export default function RoomPage() {
     
     console.log(`Player state changed to: ${stateMap[event.data] || event.data} at time: ${videoTime.toFixed(2)}`);
     
-    // If user is not host, they shouldn't be able to control the video
-    // This is a safety check in case they somehow bypass the UI restrictions
     if (!roomInfo.isHost) {
-      // Update current time but don't process any actions
       setCurrentVideoTime(videoTime);
       return;
     }
     
     let action: PlayerAction | null = null;
     
-    // Check for seeking (significant time jump while buffering or transitioning)
     if (Math.abs(videoTime - currentVideoTime) > 2) {
       console.log(`Seek detected: ${currentVideoTime.toFixed(2)} -> ${videoTime.toFixed(2)}`);
       
@@ -630,7 +573,6 @@ export default function RoomPage() {
         break;
     }
     
-    // Update current video time after processing events
     setCurrentVideoTime(videoTime);
     
     if (action && roomInfo.isHost) {
@@ -647,7 +589,6 @@ export default function RoomPage() {
     }
   };
 
-  // Scroll to bottom of messages when they change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages, showChat])
@@ -658,7 +599,6 @@ export default function RoomPage() {
 
     console.log(`Sending chat message: ${newMessage}`);
     
-    // Create message object - format for Java backend
     const messageObj = {
       type: 'chat',
       id: Date.now().toString(),
@@ -669,15 +609,11 @@ export default function RoomPage() {
       roomId: roomInfo.id
     };
     
-    // We'll wait for the message to come back from the WebSocket server
-    // This prevents duplicates as the server will assign a database ID
     
-    // Send message via WebSocket if connected
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
       wsRef.current.send(JSON.stringify(messageObj));
     } else {
       console.error('WebSocket not connected, cannot send message');
-      // Add system message about connection issue
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         sender: 'System',
@@ -711,7 +647,6 @@ export default function RoomPage() {
       const result = await response.json();
       if (response.ok) {
         console.log(`Updating display name: ${displayName}`);
-        // Update local user data
         setUser((prev) => prev ? { ...prev, username: displayName } : prev);
       } else {
         alert(result.error || "Failed to update display name.");
@@ -721,7 +656,6 @@ export default function RoomPage() {
       alert("Error updating display name. Please try again.");
     }
     
-    // Add system message about name change
     const message: Message = {
       id: Date.now().toString(),
       sender: "System",
@@ -738,7 +672,6 @@ export default function RoomPage() {
     navigate("/dashboard");
   };
 
-  // Load YouTube API in useEffect hook
   useEffect(() => {
     if (!roomInfo?.youtubeUrl) return;
     
@@ -751,7 +684,6 @@ export default function RoomPage() {
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
       }
       
-      // Initialize player when API is ready
       window.onYouTubeIframeAPIReady = () => {
         console.log("YouTube API ready, initializing player...");
         initializePlayer();
@@ -761,7 +693,6 @@ export default function RoomPage() {
       initializePlayer();
     }
 
-    // Cleanup function
     return () => {
       if (playerRef.current) {
         playerRef.current.destroy();

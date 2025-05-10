@@ -15,7 +15,6 @@ export default function DashboardPage() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    // Check if user is authenticated
     const storedUser = localStorage.getItem("user")
     if (!storedUser) {
       navigate("/login")
@@ -31,7 +30,6 @@ export default function DashboardPage() {
       return;
     }
     
-    // Get user ID from localStorage
     const storedUser = localStorage.getItem("user");
     if (!storedUser) {
       navigate("/login");
@@ -41,7 +39,6 @@ export default function DashboardPage() {
     const userData = JSON.parse(storedUser);
     
     try {
-      // Create a room via the backend API
       const response = await fetch('http://localhost:8080/CS201FP/RoomCreationServlet', {
         method: 'POST',
         headers: {
@@ -49,7 +46,7 @@ export default function DashboardPage() {
         },
         body: new URLSearchParams({
           'email': userData.email,
-          'roomName': 'Watch Party', // Default room name
+          'roomName': 'Watch Party',
           'video_link': youtubeUrl
         })
       });
@@ -60,10 +57,8 @@ export default function DashboardPage() {
       
       const roomInfo = await response.json();
       
-      // Store room info in localStorage
       localStorage.setItem("currentRoom", JSON.stringify(roomInfo));
       
-      // Navigate to the room
       navigate(`/room/${roomInfo.id}`);
     } catch (error) {
       console.error("Failed to create room:", error);
@@ -77,7 +72,6 @@ export default function DashboardPage() {
       return;
     }
     
-    // Get user ID from localStorage
     const storedUser = localStorage.getItem("user");
     if (!storedUser) {
       navigate("/login");
@@ -87,7 +81,6 @@ export default function DashboardPage() {
     const userData = JSON.parse(storedUser);
     
     try {
-      // Join a room via the backend API
       const response = await fetch(`http://localhost:8080/CS201FP/JoinRoomServlet?roomCode=${roomId}&email=${userData.email}`, {
         method: 'POST',
       });
@@ -98,10 +91,8 @@ export default function DashboardPage() {
       
       const roomInfo = await response.json();
       
-      // Store room info in localStorage
       localStorage.setItem("currentRoom", JSON.stringify(roomInfo));
       
-      // Navigate to the room
       navigate(`/room/${roomId}`);
     } catch (error) {
       console.error("Failed to join room:", error);

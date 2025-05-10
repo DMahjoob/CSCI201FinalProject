@@ -16,15 +16,12 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   }, [])
 
   if (isAuthenticated === null) {
-    // Still checking authentication
     return <div className="flex min-h-screen items-center justify-center bg-black">Loading...</div>
   }
 
   if (!isAuthenticated) {
-    // Not authenticated, redirect to login
     return <Navigate to="/login" replace />
   }
 
-  // Authenticated, render children
   return <>{children}</>
 }

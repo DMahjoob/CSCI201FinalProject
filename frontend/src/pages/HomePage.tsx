@@ -19,43 +19,34 @@ export default function HomePage() {
     }
     
     try {
-      // Generate a random guest ID
       const guestId = `guest_${Math.floor(Math.random() * 10000)}`
       
-      // Check if room exists
       const response = await fetch(`http://localhost:8080/CS201FP/JoinRoomServlet?roomCode=${roomCode}&email=${guestId}`, {
         method: 'POST',
       })
       
-      // Parse the JSON response
       try {
         const roomInfo = await response.json()
         
-        // Check for error in response
         if (roomInfo.error) {
           setError(roomInfo.error)
           return
         }
         
-        // Store guest info in localStorage
         localStorage.setItem("user", JSON.stringify({
           id: guestId,
-          email: guestId, // Backend expects email parameter to start with guest_
+          email: guestId,
           username: `Guest ${guestId.split('_')[1]}`,
           isGuest: true
         }))
         
-        // Store room info in localStorage
         localStorage.setItem("currentRoom", JSON.stringify(roomInfo))
       } catch (e) {
-        // Handle non-JSON response
         setError("Invalid room code or server error. Please try again.")
         return
       }
       
-      // We've already stored the room info from the server response above
       
-      // Navigate to room
       navigate(`/room/${roomCode}`)
       
     } catch (error) {
