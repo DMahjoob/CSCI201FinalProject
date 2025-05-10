@@ -860,6 +860,7 @@ export default function RoomPage() {
               placeholder="Display Name"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
               className="w-32 h-8 bg-zinc-800 border-zinc-700 text-white text-sm"
             />
             <Button
