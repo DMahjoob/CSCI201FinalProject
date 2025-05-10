@@ -1,0 +1,52 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/change-username")
+public class ChangeUsernameServlet extends HttpServlet {
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/BingeBaddies";
+    private static final String JDBC_USER = "root";
+    private static final String JDBC_PASSWORD = "Rayquaza10!";
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+
+        String userId = request.getParameter("userId");
+        String newUsername = request.getParameter("newUsername");
+
+        if (userId == null || newUsername == null || newUsername.trim().isEmpty()) {
+            out.print("{\"status\":\"error\",\"message\":\"Invalid input\"}");
+            return;
+        }
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement("UPDATE Users SET username = ? WHERE user_id = ?")) {
+
+            stmt.setString(1, newUsername);
+            stmt.setString(2, userId);
+            int updated = stmt.executeUpdate();
+
+            if (updated > 0) {
+                out.print("{\"status\":\"success\",\"message\":\"Username updated successfully\"}");
+            } else {
+                out.print("{\"status\":\"error\",\"message\":\"User not found\"}");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.print("{\"status\":\"error\",\"message\":\"Server error: " + e.getMessage() + "\"}");
+        }
+
+        out.flush();
+    }
+}
