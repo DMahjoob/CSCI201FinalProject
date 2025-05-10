@@ -37,6 +37,7 @@ export default function LoginPage() {
 
       if (data.status === 'success') {
         // Get user info from the database response
+        console.log("Data: ", data);
         localStorage.setItem("user", JSON.stringify({
           id: data.userId,
           email,
