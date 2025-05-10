@@ -20,8 +20,6 @@ public class ChangeUsernameServlet extends HttpServlet {
 
         String email = request.getParameter("email");
         String newUsername = request.getParameter("newUsername");
-        System.out.println("email: " + email);
-        System.out.println("newUsername: " + newUsername);
         if (email == null || newUsername == null || email.trim().isEmpty() || newUsername.trim().isEmpty()) {
             out.print("{\"status\":\"error\",\"message\":\"Invalid input\"}");
             return;
