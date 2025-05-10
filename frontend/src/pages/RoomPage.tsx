@@ -267,7 +267,7 @@ export default function RoomPage() {
         // Handle chat message
         const newMessage: Message = {
           id: data.id || Date.now().toString(),
-          sender: data.sender,
+          sender: data.sender || user.,
           text: data.text,
           timestamp: data.timestamp || Date.now()
         };
@@ -610,7 +610,7 @@ export default function RoomPage() {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: new URLSearchParams({
-          email: user?.email || "", 
+          email: user?.email,
           newUsername: displayName,
         }),
       });
@@ -619,7 +619,7 @@ export default function RoomPage() {
       if (response.ok) {
         console.log(`Updating display name: ${displayName}`);
         // Update local user data
-        setUser((prev) => prev ? { ...prev, username: displayName } : null);
+        setUser((prev) => prev ? { ...prev, username: displayName } : prev);
         setDisplayName(""); // Clear input
       } else {
         alert(result.error || "Failed to update display name.");
